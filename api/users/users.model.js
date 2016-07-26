@@ -44,7 +44,7 @@ userSchema.methods.signJWT = function() {
     name: this.name,
     role: this.role,
     exp: parseInt(expiry.getTime() / 1000),
-    //NOTICE!! Please change secret below!!
+    //NOTICE!! Please make sure to change JWT secret below!! Also, new JWT secret must match JWT secret in ./api/auth/authUser.js 
   }, 'upupdowndownleftrightleftrightbaselectstart');
 };
 module.exports = mongoose.model('Users', userSchema);

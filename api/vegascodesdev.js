@@ -283,6 +283,8 @@ function handValueF(hData) {
   return payout;
 };
 
+// console.log('rf?',handChecker([52,51,50,49,40]));
+
 // console.log('st', handChecker([9, 13, 12, 11, 10]));
 // console.log('sf', handChecker([52, 51, 50, 49, 40]));
 // console.log('jb', handChecker([52, 13, 50, 49, 40]));

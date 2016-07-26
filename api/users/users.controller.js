@@ -32,7 +32,7 @@ function createUser(req, res) {
       return handleError(res, 'Error');
     }
     token = user.signJWT();
-    return res.status(201).json({
+    return res.status(200).json({
       'token': token,
       'username': user.username,
       'credits': user.credits
