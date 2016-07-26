@@ -163,5 +163,23 @@ describe("vegas.codes Server", function() {
         done();
       });
     });
+
+    it("/api/register returns 400 status for incomplete field(s)", function(done) {
+      var rnd = Math.floor((Math.random() * 99999) + 1);
+      var guestName = 'guest' + rnd.toString();
+      request({
+        method: 'POST',
+        uri: base_url + '/register',
+        json: {
+          username: guestName,
+          password: guestName
+        }
+      }, function(error, response, body) {
+        var reg1 = body;
+        expect(response.statusCode).toBe(400);
+        expect(body).toBe('All fields required')
+        done();
+      });
+    });
   });
 });
