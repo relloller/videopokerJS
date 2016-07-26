@@ -1,4 +1,4 @@
-/** api/index.js  vegas.codes **/
+/** ./api/index.js  vegas.codes **/
 var express = require('express');
 var router = express.Router();
 var vegasCodes = require('./vegascodesdev.js');
@@ -11,7 +11,9 @@ router.get('/vp/deal', function dealF(req, res) {
   var dealHand = vegasCodes.deal5();
   var dealHandValue = vegasCodes.handChecker(dealHand);
   console.log('dealHand, dealHandValue', dealHand, dealHandValue);
-  res.status(200).json({dealHand: dealHand, dealHandValue: dealHandValue});
+  var resJSON = {dealHand: dealHand, dealHandValue: dealHandValue};
+  return res.status(200).json(resJSON);
 });
+
 
 module.exports = router;
