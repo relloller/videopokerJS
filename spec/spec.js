@@ -43,6 +43,28 @@ describe("vegas.codes Server", function() {
       });
     });
 
+
+    it("/api/login returns 200 status, username, credits, and JWT token", function(done) {
+      request({
+        method: 'POST',
+        uri: base_url + '/login',
+        json: {
+          username: 'guest001',
+          password: 'guest001'
+        }
+      }, function(error, response, body) {
+        var login2 = body;
+        expect(response.statusCode).toBe(200);
+        expect(typeof login2.token).toBe('string');
+        jtoken = login2.token;
+        // console.log('jtoken',jtoken);
+        expect(login2.username).toBe('guest001');
+        expect(typeof login2.credits).toBe('number')
+        done();
+      });
+    });
+
+
     it("/api/login returns 401 status for incorrect password", function(done) {
       request({
         method: 'POST',
@@ -59,25 +81,6 @@ describe("vegas.codes Server", function() {
       });
     });
 
-    it("/api/login returns 200 status, username, credits, and JWT token", function(done) {
-      request({
-        method: 'POST',
-        uri: base_url + '/login',
-        json: {
-          username: 'guest001',
-          password: 'guest001'
-        }
-      }, function(error, response, body) {
-        var login2 = body;
-        expect(response.statusCode).toBe(200);
-        expect(typeof login2.token).toBe('string');
-        jtoken = login2.token;
-        expect(login2.username).toBe('guest001');
-        expect(typeof login2.credits).toBe('number')
-        done();
-      });
-    });
-
     it("/api/me returns 200 status, username, credits", function(done) {
       request({
         method: 'GET',
@@ -87,12 +90,28 @@ describe("vegas.codes Server", function() {
         }
       }, function(error, response, body) {
         var me = JSON.parse(body);
-        console.log('me', me);
         expect(response.statusCode).toBe(200);
         expect(me.username).toBe('guest001');
         expect(me.email).toBe('guest001@vegas.codes');
         expect(me.role).toBe('player');
         expect(typeof me.credits).toBe('number')
+        done();
+      });
+    });
+
+    it("/api/me returns 401 status and 'Access Denied' without valid JWT", function(done) {
+      request({
+        method: 'GET',
+        uri: base_url + '/me',
+        // headers: {
+        //   'x-access-token': jtoken
+        // }
+      }, function(error, response, body) {
+        // console.log('responseme',response);
+        // var me = JSON.parse(body);
+        // console.log('me', me);
+        expect(response.statusCode).toBe(401);
+        expect(body).toBe('Access Denied');
         done();
       });
     });
@@ -105,23 +124,25 @@ describe("vegas.codes Server", function() {
           'x-access-token': jtoken
         }
       }, function(error, response, body) {
-        var h1 = JSON.parse(body);
-        var hd1 = h1.dealHand;
-        expect(Array.isArray(hd1)).toBe(true);
-        expect(hd1[0]).toBeGreaterThan(0);
-        expect(hd1[1]).toBeGreaterThan(0);
-        expect(hd1[2]).toBeGreaterThan(0);
-        expect(hd1[3]).toBeGreaterThan(0);
-        expect(hd1[4]).toBeGreaterThan(0);
-        expect(hd1[0]).toBeLessThan(53);
-        expect(hd1[1]).toBeLessThan(53);
-        expect(hd1[2]).toBeLessThan(53);
-        expect(hd1[3]).toBeLessThan(53);
-        expect(hd1[4]).toBeLessThan(53);
+        var h2 = JSON.parse(body);
+        console.log('h2',h2);
+        var hd2 = h2.dealHand;
+        expect(response.statusCode).toBe(200);
+        expect(Array.isArray(hd2)).toBe(true);
+        expect(hd2[0]).toBeGreaterThan(0);
+        expect(hd2[1]).toBeGreaterThan(0);
+        expect(hd2[2]).toBeGreaterThan(0);
+        expect(hd2[3]).toBeGreaterThan(0);
+        expect(hd2[4]).toBeGreaterThan(0);
+        expect(hd2[0]).toBeLessThan(53);
+        expect(hd2[1]).toBeLessThan(53);
+        expect(hd2[2]).toBeLessThan(53);
+        expect(hd2[3]).toBeLessThan(53);
+        expect(hd2[4]).toBeLessThan(53);
         done();
       });
     });
-    
+
     it("/api/register returns 201 status, username, credits, and JWT token", function(done) {
       var rnd = Math.floor((Math.random() * 99999) + 1);
       var guestName = 'guest' + rnd.toString();
