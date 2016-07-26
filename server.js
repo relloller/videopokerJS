@@ -2,8 +2,10 @@
 var http = require('http');
 var express = require('express');
 var compression = require('compression');
+var passport = require('passport');
 var mongoose = require('mongoose');
 var db = require("./api/model/mongodb.js")
+require('./api/config/passport');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var path = require('path');
