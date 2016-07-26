@@ -1,0 +1,33 @@
+{
+  "name": "videopokerjs",
+  "version": "1.0.0",
+  "description": "videopoker js",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vegascodes/videopokerJS.git"
+  },
+  "author": "Victor S",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vegascodes/videopokerJS/issues"
+  },
+  "homepage": "https://github.com/vegascodes/videopokerJS#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "compression": "^1.6.2",
+    "express": "^4.14.0",
+    "jasmine": "^2.4.1",
+    "minimatch": "^3.0.2",
+    "mongoose": "^4.5.7",
+    "morgan": "^1.7.0",
+    "passport": "^0.3.2",
+    "path": "^0.12.7",
+    "request": "^2.74.0",
+    "winston": "^2.2.0"
+  }
+}

@@ -1,0 +1,37 @@
+/** https://github.com/vegascodes/videopokerJS **/
+var http = require('http');
+var express = require('express');
+var compression = require('compression');
+var mongoose = require('mongoose');
+var db = require("./api/model/mongodb.js")
+var bodyParser = require('body-parser');
+var morgan = require('morgan');
+var path = require('path');
+var api = require('./api/index.js');
+
+var app = require('express')();
+
+app.use(compression());
+app.use(morgan('dev'));
+
+//swagger & API CORS 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, x-access-token, x-staff-token, X-Requested-With, Content-Type, Accept");
+  res.header("access-control-allow-methods", "GET, POST, PUT");
+  next();
+});
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+app.use(bodyParser.json());
+
+app.use(express.static('public'));
+
+app.use('/api', api);
+
+app.listen(process.env.PORT || 8080, function() {
+    console.log("vegas.codes server listening", process.env.port || 8080);
+});
