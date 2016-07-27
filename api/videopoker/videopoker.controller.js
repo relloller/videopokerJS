@@ -16,6 +16,7 @@ function dealF(req, res) {
   }, function(err, data) {
     if (err) return handleError(res, err);
     if (data.credits >= req.body.wager) data.credits -= req.body.wager;
+    else return res.status(400).send('Wager exceeds credits balance');
     credits1 = data.credits;
     data.save(function(err) {
       if (err) return handleError(err);

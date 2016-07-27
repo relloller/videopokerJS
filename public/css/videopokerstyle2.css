@@ -1,0 +1,312 @@
+
+.rowcards {
+  margin-left: 3%;
+  margin-right: 3%;
+  width: 93%;
+  clear: both;
+  margin-top: 0px;
+  box-sizing: border-box; 
+}
+
+
+
+.rowc {
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+  margin-top: 0px;
+  width: 95%;
+  clear: both; 
+}
+
+#logoutButton {
+  visibility: hidden;
+}
+
+#logoutButton.visib {
+  visibility: visible;
+}
+#noflow {
+width: 1%;
+max-height: auto;
+overflow: auto;
+float: left;
+}
+
+.cards {
+/*display: inline-block;
+border-style: solid;
+border-color: blue;
+border-width: thin;
+
+height:330px;
+width:208px;
+padding: 5px;
+margin-top: 5px;
+max-width: 100px;
+*/
+
+max-height: auto;
+overflow: auto;
+padding: 3px;
+box-sizing: border-box;
+}
+
+.holding {
+overflow: auto;
+padding: 0px;
+border-width: 3px;
+border-style: solid;
+border-color: blue;
+border-radius: 10px;
+box-sizing: border-box;
+
+}
+.colc {
+  width: 19.5%;
+  float:left;
+
+  box-sizing: border-box;
+}
+
+
+.keyselect {
+font-size: 0.8em;
+text-align: center;
+}
+
+.colstat {
+  width: 15%;
+  float: left;
+  }
+
+.colstat-besthand {
+  width: 25%;
+  float: left;
+  }
+
+
+#besthand {
+text-align: center;
+color: #3A59FE;
+font-size: 1.0em; 
+font-weight: bold;
+padding:1px;
+width:25%;
+}
+.colstat-rightmargin {
+width: 25%;
+float:left;
+}
+.colstat-wager {
+  width: 20%;
+  float: left;
+  }
+
+#wager {
+width: 30%;
+text-align: center;
+font-size: 1.0em;
+float: left;
+}
+
+#wagerup {
+
+width:35%;
+text-align: center;
+float:left;
+font-size: 1.0em;
+font-weight:bold;
+text-transform:uppercase;
+color:white;
+background-color:#4b8f29;
+border:0 none;
+border-radius: 5px;
+text-shadow:0 -1px 0 #000;
+  text-align: center;
+box-shadow:0 1px 0 #666,0 5px 0 #444,0 6px 6px rgba(0,0,0,0.6);
+cursor:pointer;
+}
+
+#wagerdown {
+width:35%;
+text-align: center;
+float:left;
+font-size: 1.0em;
+font-weight:bold;
+text-transform:uppercase;
+color:white;
+background-color:#4b8f29;
+border:0 none;
+border-radius: 5px;
+text-shadow:0 -1px 0 #000;
+  text-align: center;
+box-shadow:0 1px 0 #666,0 5px 0 #444,0 6px 6px rgba(0,0,0,0.6);
+cursor:pointer;
+}
+
+.colstat-money {
+width: 20%; 
+    float: left;
+}
+#credits {
+float:left;
+color: black;
+font-size: 1.1em;
+text-align: center;
+width:20%;
+}
+
+.colstat-payout {
+  width: 15%;
+  float: left;
+  }
+
+
+#payout{
+text-align: center;
+font-size: 1.2em;
+/*padding:2px;*/
+width:15%;
+}
+
+#slider {
+  width:25%;
+  clear: both;
+  float: left;
+  margin-left: 27%;
+  display: none;
+}
+
+
+#dealbutton {
+background-color: Green;
+width: 12.5%;
+}
+
+
+#drawbutton {
+color: white;
+background-color: SlateGray;
+width: 12.5%;
+}
+
+#dealdrawbutton {
+color: white;
+background-color: Green;
+width: 15.5%;
+}
+
+  
+.row{
+}
+
+.r2 {
+text-align: center;
+line-height: 1.1;
+}
+
+
+
+.r3 {
+text-align: center;
+font-size: 1.0em;
+}
+
+
+
+.cards img {
+display:block;
+width: 95%;
+height: 95%;
+margin-left: auto;
+margin-right: auto;
+}
+
+
+
+
+
+.rebet {
+
+}
+
+.r3tabs {
+text-align: center;
+}
+
+.r3 {
+text-align: center;
+}
+
+
+
+
+
+
+.discards {
+box-sizing: border-box;
+
+}
+
+
+
+.divbuttons {
+float:left;
+font-size: 1.2em;
+font-weight:bold;
+text-transform:uppercase;
+color:white;
+background-color:#4b8f29;
+border:0 none;
+border-radius: 5px;
+text-shadow:0 -1px 0 #000;
+  text-align: center;
+box-shadow:0 1px 0 #666,0 5px 0 #444,0 6px 6px rgba(0,0,0,0.6);
+cursor:pointer;
+}
+
+.buttons {
+}
+
+
+table {
+margin: auto;
+
+margin-top:-7px;
+margin-bottom:0px;
+border-style: solid;
+border-width: 0px;
+border-radius: 15px;
+border-color: #DC0C18;
+border-bottom-width: 1px;
+border-bottom-color: black;
+}
+
+
+
+#payouttabletabs {
+background-color: #DC0C18;
+color: white;
+}
+
+#payouttable {
+
+width:70%;
+font-size: 0.9em;
+line-height: 0.9em;
+padding: 1px;
+}
+/*089DE3 3A59FE*/
+
+.even {
+background-color: #eee;
+padding: 1px;
+}
+
+
+.payouthighlight {
+background-color: #3A59FE;
+padding: 0px;
+border-radius:10px;
+color: white;
+}
