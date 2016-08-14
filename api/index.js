@@ -14,12 +14,12 @@ router.post('/register', Users.signup);
 router.post('/login', Users.login);
 router.get('/me', authUser, Users.me);
 
-router.post('/vp/deal/guest', function (req, res) {
-  var dealHand = vegasCodes.deal5();
-  var dealHandValue = vegasCodes.handChecker(dealHand);
-  var resJSON = {dealHand: dealHand, dealHandValue: dealHandValue};
-  return res.status(200).json(resJSON);
-});
+// router.post('/vp/deal/guest', function (req, res) {
+//   var dealHand = vegasCodes.deal5();
+//   var dealHandValue = vegasCodes.handChecker(dealHand);
+//   var resJSON = {dealHand: dealHand, dealHandValue: dealHandValue};
+//   return res.status(200).json(resJSON);
+// });
 
 router.post('/vp/deal/user', authUser, VP.deal);
 router.post('/vp/draw/user', authUser, VP.draw);

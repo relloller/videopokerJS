@@ -48,7 +48,7 @@ function drawF(req, res) {
     	if(err.path === '_id' && err.reason === undefined) return res.status(404).send('Game not found');
     	return handleError(res, err);
     }
-    if(data.drawCards.length === 5 || data.holdCards.length === 5) return res.status(404).send('Game with submitted tID not open');
+    if(data.drawCards.length === 5 || data.holdCards.length === 5) return res.status(404).send('Game with submitted tID closed');
     console.log('drawdata',data);
     //checks if submitted HOLD cards are valid
     for (var i = 0; i < 5; i++) {
@@ -86,6 +86,5 @@ function drawF(req, res) {
 }
 
 function handleError(res, err) {
-  console.log('err', err);
   return res.status(500).send('500 error');
 };
