@@ -268,8 +268,7 @@ function evtDeets(typeevt) {
           'password': document.getElementById("passwordInputR").value
         };
         registerF(regInfo);
-      }
-      if (e.target.id === 'showLogin') {
+      } else if (e.target.id === 'showLogin') {
         $("#loginFormDiv").toggle();
       } else if (e.target.id != 'panel-02' && e.target.offsetParent.id !== 'panel-02' && e.target.parentElement.offsetParent.id !== 'panel-02') {
         $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
