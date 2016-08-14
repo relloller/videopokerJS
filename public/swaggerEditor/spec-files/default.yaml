@@ -1,0 +1,215 @@
+# Example YAML to get you started quickly.
+# Be aware that YAML has indentation based scoping.
+# Code completion support is available so start typing for available options.
+swagger: '2.0'
+# This is your document metadata
+info:
+  version: "0.0.1"
+  title: https://videopokerjs.com
+  description: VideoPokerJS API
+  
+host: localhost:8080
+# host: vegas.codes
+# schemes: 
+  # - https
+basePath: /api
+# Describe your paths here
+paths:
+  /register:
+    post:
+      description: New account registration endpoint
+      parameters:
+      - name: regData
+        in: body
+        schema:
+          type: object
+          properties:
+            username:
+              type: string
+            password:
+              type: string
+            email:
+              type: string
+        required: true
+        description: username password email 
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/UserReg'
+        401: 
+          description: Access Denied
+        409:
+          description: Username or email already exists 
+        500:
+          description: Error
+  /login:
+    post:
+      description: Existing user login endpoint
+      parameters:
+      - name: loginData
+        in: body
+        schema:
+          type: object
+          properties:
+            username: 
+              type: string
+            password:
+              type: string
+        required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/UserLogin'
+        401: 
+          description: Access Denied
+        500:
+          description: Error
+  /me:
+    get: 
+      description: Returns account details of authenticated user
+      parameters:
+      - name: x-access-token
+        in: header
+        type: string
+        required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Me'
+        401: 
+          description: Access Denied
+        500:
+          description: Error
+  /vp/deal/user:
+    post:
+      description: Returns the initial 5 cards
+      parameters:
+      - name: x-access-token
+        in: header
+        type: string
+        required: true
+      - name: wager
+        in: body
+        schema:
+          type: object
+          properties:
+            wager:
+              type: number
+              format: float
+        required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/DealData'
+        401:
+          description: Acess Denied
+        500:
+          description: Error
+  /vp/draw/user:
+    post:
+      description: Returns draw cards for authenticated account and deal ID specified by `tID`
+      parameters: 
+      - name: x-access-token
+        in: header
+        type: string
+        required: true
+      - name: bodyData
+        in: body
+        schema:
+          type: object
+          properties:
+            holdCards:
+              type: array
+              items:
+                type: integer
+            tID:
+              type: string
+        required: true
+      responses:
+        200:
+          description: OK
+        400:
+          description: Malformed or unmatched JSON Array Data.
+        404:
+          description: Not found
+        500: 
+          description: Error
+  /admin/{userID}:
+    post:
+      description: Returns profile and play history for `userID`
+      parameters:
+      - name: x-access-token
+        in: header
+        type: string
+        required: true
+      - name: userID
+        in: path
+        type: string
+        required: true
+      responses:
+        201:
+          description: Successful
+        500:
+          description: Error
+definitions:
+  UserLogin:
+    type: object
+    properties:
+      token:
+        type: string
+      username:
+        type: string
+      credits:
+        type: number
+        format: float
+  Me:
+    type: object
+    properties:
+      username:
+        type: string
+      email:
+        type: string
+      role:
+        type: string
+      credits:
+        type: number
+        format: float
+  UserReg:
+    type: object
+    properties:
+      token:
+        type: string
+      username:
+        type: string
+      credits:
+        type: number
+        format: float
+  DealData:
+    type: object
+    properties:
+      tID: 
+        type: string
+      handValue:
+        type: string
+      dealHand:
+        type: array
+        items:
+          type: number
+          format: integer
+      credits:
+        type: number
+        format: float
+  holdCards:
+    type: array
+    items:
+      type: number
+      format: integer
+  drawHand:
+    type: array
+    items:
+      type: number
+      format: integer
