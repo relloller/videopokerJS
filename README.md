@@ -1,1 +1,1 @@
-vegas.codes
+vegas.codes VideoPokerJS API

@@ -18,35 +18,35 @@ describe("vegas.codes Server", function() {
       });
     });
   });
-  describe("POST /api/vp/deal/guest", function() {
-    it("/api/vp/deal/guest returns status code 200", function(done) {
-      request.post(base_url + '/vp/deal/guest', function(error, response, body) {
-        expect(response.statusCode).toBe(200);
-        done();
-      });
-    });
-    it("/api/vp/deal/guest returns array of 5 integers from 1-52", function(done) {
-      request({
-        method: 'POST',
-        uri: base_url + '/vp/deal/guest',
-      }, function(error, response, body) {
-        var h = JSON.parse(body);
-        var hd = h.dealHand;
-        expect(Array.isArray(hd)).toBe(true);
-        expect(hd[0]).toBeGreaterThan(0);
-        expect(hd[1]).toBeGreaterThan(0);
-        expect(hd[2]).toBeGreaterThan(0);
-        expect(hd[3]).toBeGreaterThan(0);
-        expect(hd[4]).toBeGreaterThan(0);
-        expect(hd[0]).toBeLessThan(53);
-        expect(hd[1]).toBeLessThan(53);
-        expect(hd[2]).toBeLessThan(53);
-        expect(hd[3]).toBeLessThan(53);
-        expect(hd[4]).toBeLessThan(53);
-        done();
-      });
-    });
-  });
+  // describe("POST /api/vp/deal/guest", function() {
+  //   it("/api/vp/deal/guest returns status code 200", function(done) {
+  //     request.post(base_url + '/vp/deal/guest', function(error, response, body) {
+  //       expect(response.statusCode).toBe(200);
+  //       done();
+  //     });
+  //   });
+  //   it("/api/vp/deal/guest returns array of 5 integers from 1-52", function(done) {
+  //     request({
+  //       method: 'POST',
+  //       uri: base_url + '/vp/deal/guest',
+  //     }, function(error, response, body) {
+  //       var h = JSON.parse(body);
+  //       var hd = h.dealHand;
+  //       expect(Array.isArray(hd)).toBe(true);
+  //       expect(hd[0]).toBeGreaterThan(0);
+  //       expect(hd[1]).toBeGreaterThan(0);
+  //       expect(hd[2]).toBeGreaterThan(0);
+  //       expect(hd[3]).toBeGreaterThan(0);
+  //       expect(hd[4]).toBeGreaterThan(0);
+  //       expect(hd[0]).toBeLessThan(53);
+  //       expect(hd[1]).toBeLessThan(53);
+  //       expect(hd[2]).toBeLessThan(53);
+  //       expect(hd[3]).toBeLessThan(53);
+  //       expect(hd[4]).toBeLessThan(53);
+  //       done();
+  //     });
+  //   });
+  // });
   describe("POST /api/login", function() {
     it("/api/login returns 200 status, username, credits, and JWT token", function(done) {
       request({
@@ -227,7 +227,7 @@ describe("vegas.codes Server", function() {
         done();
       });
     });
-    it("/api/vp/draw/user returns 404 status, 'Game with submitted tID not open'.", function(done) {
+    it("/api/vp/draw/user returns 404 status, 'Game with submitted tID closed'", function(done) {
       request({
         method: 'POST',
         uri: base_url + '/vp/draw/user',
@@ -240,7 +240,7 @@ describe("vegas.codes Server", function() {
         }
       }, function(error, response, body) {
         expect(response.statusCode).toBe(404);
-        expect(body).toBe('Game with submitted tID not open');
+        expect(body).toBe('Game with submitted tID closed');
         done();
       });
     });
