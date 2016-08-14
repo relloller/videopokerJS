@@ -4,11 +4,15 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/jquery.mobile.css" />
+  <!-- build:css css/tidy.css -->
+  <!-- <link rel="stylesheet" href="css/jquery.mobile.css" /> -->
   <link rel="stylesheet" href="css/jquery.mobile.icons.min.css" />
   <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" />
   <link rel="stylesheet" type="text/css" href="css/videopokerstyle2.css">
-  <script src="js/jquery-2.1.4.js"></script>
+<!-- /build -->
+  <!-- <link rel="stylesheet" href="css/tidy.css" /> -->
+
+  <script src="js/jquery.min.js"></script>
   <script src="js/jquery.mobile-1.4.5.js"></script>
 </head>
 
@@ -38,7 +42,7 @@
       <table id="payouttable" class="tableborder">
         <tr id="payouttabletabs">
           <td>Best Hand</td>
-          <td>PAYOUT</td>
+          <td>WIN</td>
           <td>COUNT</td>
         </tr>
         <tr id="RF">
@@ -88,15 +92,15 @@
         </tr>
       </table>
       <div id="divrow1" class="rowcards">
-        <div id="c1" class="colc cards discards"><img id="c1img" src=img/1c.png></img>
+        <div id="c1" class="colc cards discards"><img id="c1img" src=img/1min.png></img>
         </div>
-        <div id="c2" class="colc cards discards"><img id="c2img" src=img/13c.png></img>
+        <div id="c2" class="colc cards discards"><img id="c2img" src=img/13min.png></img>
         </div>
-        <div id="c3" class="colc cards discards"><img id="c3img" src=img/12c.png></img>
+        <div id="c3" class="colc cards discards"><img id="c3img" src=img/12min.png></img>
         </div>
-        <div id="c4" class="colc cards discards"><img id="c4img" src=img/11c.png></img>
+        <div id="c4" class="colc cards discards"><img id="c4img" src=img/11min.png></img>
         </div>
-        <div id="c5" class="colc cards discards"><img id="c5img" src=img/10c.png></img>
+        <div id="c5" class="colc cards discards"><img id="c5img" src=img/10min.png></img>
         </div>
         <div class="rowc keyselect">
           <div id="r2c1" class="colc"> Press A to select </div>
@@ -106,21 +110,23 @@
           <div id="r2c4" class="colc"> Press G to select </div>
         </div>
         <div class="rowc r3tabs">
+          <div class="colstat-payout">Win</div>
           <div class="colstat-besthand">Best Hand</div>
           <div id="wagerheading" class="colstat-wager">Wager</div>
-          <div class="colstat-payout">Payout</div>
           <div class="colstat-money">Credits</div>
         </div>
         <div class="rowc">
+          <div id="payout" class="colstat-payout"> - </div>
           <div id="besthand" class="colstat-besthand"> BEST HAND</div>
           <div id="wagertab" class="colstat-wager">
             <div id="wagerdown"> - </div>
             <div type="text" id="wager"> 5 </div>
             <div id="wagerup"> + </div>
           </div>
-          <div id="payout" class="colstat-payout"> - </div>
           <div id="credits" class="colstat-money"> $ </div>
-          <div id="dealdrawbutton" class="divbuttons">DEAL</div>
+          <div id="dealbutton" class="divbuttons">DEAL</div>
+                    <div id="drawbutton" class="divbuttons">DRAW</div>
+
         </div>
         <p>
           <br>
@@ -129,18 +135,38 @@
       </div>
       <!-- panel 02 -->
       <div class="panel right" data-role="panel" data-position="right" data-display="overlay" id="panel-02">
+      <p id='RSX'>X</p>
         <ul>
           <li><span class="avatar"><img src="img/samsam.png" width="30" height="30"></span>Samus the Cat</li>
           <li><span class="avatar"><img src="img/rubycat.png" width="30" height="30"></span>Ruby the Cat</li>
         </ul>
         <div id="usernameRDiv"></div>
         <div id="creditsRDiv"></div>
+
+
+      <button id="showLogin">Login</button>
+       <div id="loginFormDiv">
         <form id="loginForm">
-          <input id="usernameInput" type="text" name="username" />
+<label for="usernameInput" class="ui-hidden-accessible">Username</label>
+          <input id="usernameInput" type="text" name="username" placeholder="Username"/>
           <input id="passwordInput" type="password" name="password" />
-          <button id="loginButton">Login</button>
-          <button id="logoutButton">Logout</button>
+          <button id="loginButton">Submit</button>
         </form>
+        </div>
+
+
+        <button id="showRegister">Sign Up</button>
+        <div id="registerFormDiv">
+        <form id="registerForm">
+         <input id="usernameInputR" type="text" name="username" />
+          <input id="passwordInputR" type="password" name="password" />
+          <input id="emailInputR" type="text" name="email" />
+          <button id="registerButton">Register</button>
+        </form>
+        </div>
+
+          <!-- <button id="logoutButton">Logout</button> -->
+       
       </div>
       <!-- </div> -->
       <div class="panel right" data-role="panel" data-position="right" data-display="overlay" id="panel-04">

@@ -1,435 +1,381 @@
-      var vptID = {
-        // tID:'',
-        // dealHand:[],
-        wager: 5,
-        gameStatus: 'bet',
-        holdCards: [0, 0, 0, 0, 0],
-        // drawHand:[],
-        // win:[],
-        // username: '',
-        // credits:0
-        acronym: {
-          'JB': 'Jacks or Better',
-          'TP': 'Two Pair',
-          'THK': 'Three of a kind',
-          'ST': 'Straight',
-          'FL': 'Flush',
-          'FH': 'Full House',
-          'FK': 'Four of a kind',
-          'SF': 'Straight Flush',
-          'RF': 'Royal Flush',
-          '--': '--'
+//STATE VARIABLE
+var vptID = {
+  tID: '',
+  dealHand: [],
+  RSide: false,
+  handValue: '--',
+  wager: 5,
+  gameStatus: 'bet',
+  holdCards: [0, 0, 0, 0, 0],
+  drawHand: [],
+  win: '',
+  username: '',
+  credits: 0,
+  acronym: {
+    'JB': 'Jacks or Better',
+    'TP': 'Two Pair',
+    'THK': 'Three of a kind',
+    'ST': 'Straight',
+    'FL': 'Flush',
+    'FH': 'Full House',
+    'FK': 'Four of a kind',
+    'SF': 'Straight Flush',
+    'RF': 'Royal Flush',
+    '--': '--'
+  }
+};
+var c1D = document.getElementById('c1');
+var c2D = document.getElementById('c2');
+var c3D = document.getElementById('c3');
+var c4D = document.getElementById('c4');
+var c5D = document.getElementById('c5');
+var cDArr = [c1D, c2D, c3D, c4D, c5D];
+var c1I = document.getElementById('c1img');
+var c2I = document.getElementById('c2img');
+var c3I = document.getElementById('c3img');
+var c4I = document.getElementById('c4img');
+var c5I = document.getElementById('c5img');
+var creditsDiv = document.getElementById('credits');
+var drawBtn = document.getElementById('drawbutton');
+var drawBtnJQ = $("#drawbutton")
+var dealBtn = document.getElementById('dealbutton');
+var dealBtnJQ = $("#dealbutton");
+var showLoginBtnJQ = $("#showLogin");
+var showRegBtnJQ = $("#showRegister");
+var loginBtn = document.getElementById('loginButton');
+var regBtn = document.getElementById('loginButton');
+//update STATE variable
+//and call DOM updater
+function updObjProps(newObj, oldObj) {
+  var newKV = {};
+  for (var prop in newObj) {
+    oldObj[prop] = newObj[prop];
+    newKV[prop] = prop;
+  };
+  // console.log('vptID-updObjprop', vptID, 'newKV', newKV);
+  updDom();
+}
+//Updates DOM to show vptID variable STATE 
+function updDom() {
+  if (vptID.gameStatus === "login") {
+    updateUsername();
+    updateLoggedInDom();
+    updateCredits();
+  } else if (vptID.gameStatus === "newvptID") {
+    updateTable('reset');
+    updatePayout();
+    updateBestHand();
+  } else if (vptID.gameStatus === "deal") {
+    updateCards(vptID.dealHand);
+    updateTable();
+    updateBestHand();
+    updateCredits();
+  } else if (vptID.gameStatus === "draw") {
+    updateCards(vptID.drawHand);
+    updateTable();
+    updateBestHand();
+    updateCredits();
+    updatePayout();
+  };
+};
+
+function updateLoggedInDom() {
+  $("#logoutButton").toggle();
+  $("#loginButton").toggle();
+  $("#registerButton").toggle();
+  $("#usernameInput").hide();
+  $("#passwordInput").text('');
+  $("#passwordInput").hide();
+}
+
+function updateUsername() {
+  $("#loginSpan").text(vptID.username);
+  $("#usernameRDiv").text("Player:" + vptID.username);
+}
+
+function updateTable(res) {
+  if (res === 'reset' && vptID.handValue !== "--") document.getElementById(vptID['handValue']).classList.remove("payouthighlight");
+  else if (vptID.handValue !== "--") document.getElementById(vptID['handValue']).classList.add("payouthighlight");
+}
+
+function updateCredits() {
+  // console.log(vptID.credits);
+  $("#credits").text(vptID.credits);
+}
+
+function updatePayout() {
+  $("#payout").text(vptID.win);
+}
+
+function updateBestHand() {
+  var longStr = vptID.acronym[vptID['handValue']];
+  // console.log('bh', longStr);
+  $('#besthand').text(longStr);
+}
+
+function updateCards(cards) {
+  c1I.src = "img/" + cards[0] + "min.png";
+  c2I.src = "img/" + cards[1] + "min.png";
+  c3I.src = "img/" + cards[2] + "min.png";
+  c4I.src = "img/" + cards[3] + "min.png";
+  c5I.src = "img/" + cards[4] + "min.png";
+}
+
+function loginF(loginData) {
+  var request = new XMLHttpRequest();
+  request.open("POST", "/api/login");
+  var vptIDJSON = {};
+  request.setRequestHeader("Content-type", "application/json");
+  request.onreadystatechange = function() {
+    if (request.readyState === 4 && request.status == 200) {
+      vptID.gameStatus = 'login';
+      $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
+      vptID.RSide = false;
+      // console.log('request', request.response);
+      vptIDJSON = JSON.parse(request.response);
+      window.localStorage.setItem('jwtvp', vptIDJSON.token);
+      // console.log('vptIDJSON', vptIDJSON);
+      delete vptIDJSON.token;
+      updObjProps(vptIDJSON, vptID);
+      $("#logoutButton").on('touchend', function(e) {
+        propStop(e);
+        delete window.localStorage.jwtvp;
+        $("#logoutButton").toggle();
+        $("#showLogin").toggle();
+        $("#loginSpan").text('Login');
+      });
+      $("#logoutButton").on('mousepress', function(e) {
+        propStop(e);
+        delete window.localStorage.jwtvp;
+        $("#logoutButton").toggle();
+        $("#showLogin").toggle();
+        $("#loginSpan").text('Login');
+      });
+    }
+  };
+  request.send(JSON.stringify(loginData));
+}
+//resets state variable for new game
+function newvptIDF() {
+  updateTable("reset");
+  vptID.tID = '';
+  vptID.dealCards = [];
+  for (var i = 0; i < 5; i++) {
+    if (vptID.holdCards[i] !== 0) {
+      cDArr[i].classList.toggle("discards")
+      cDArr[i].classList.toggle("holding");
+    }
+  }
+  vptID.holdCards = [0, 0, 0, 0, 0];
+  vptID.drawCards = [];
+  vptID.win = '--';
+  vptID.handValue = '--';
+  vptID.gameStatus = 'newvptID';
+  updDom();
+  dealHandF();
+}
+
+function dealHandF() {
+  var request = new XMLHttpRequest();
+  var params = "wager=" + vptID.wager;
+  var vptIDJSON2 = {};
+  request.open("POST", "/api/vp/deal/user", async = true);
+  request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  request.setRequestHeader("x-access-token", window.localStorage.jwtvp);
+  request.onreadystatechange = function() {
+    if (request.readyState === 4 && request.status == 200) {
+      dealBtnJQ.hide();
+      drawBtnJQ.show();
+      vptID.gameStatus = 'deal';
+      vptIDJSON2 = JSON.parse(request.response);
+      updObjProps(vptIDJSON2, vptID);
+    }
+  }
+  request.send(params);
+}
+
+function drawHandF() {
+  updateTable('reset');
+  //example to show videopokerjs API call with XMLHttpRequest
+  var request = new XMLHttpRequest();
+  var params = {
+    holdCards: vptID.holdCards,
+    tID: vptID.tID
+  };
+  var vptIDJSON3 = {};
+  request.open("POST", "/api/vp/draw/user");
+  request.setRequestHeader("Content-type", "application/json");
+  request.setRequestHeader("x-access-token", window.localStorage.jwtvp);
+  request.onreadystatechange = function() {
+    if (request.readyState === 4 && request.status == 200) {
+      vptID.gameStatus = 'draw';
+      drawBtnJQ.hide();
+      dealBtnJQ.show()
+      vptIDJSON3 = JSON.parse(request.response);
+      // console.log('vptIDJSON3', vptIDJSON3);
+      updObjProps(vptIDJSON3, vptID);
+      $("#dealbutton").on('touchend', function(e) {
+        propStop(e);
+        vptID.gameStatus = 'newvptID';
+        if (vptID.gameStatus === 'newvptID') {
+          newvptIDF();
+          $("#dealbutton").off('touchend');
         }
-      };
-      var c1D = document.getElementById('c1');
-      var c2D = document.getElementById('c2');
-      var c3D = document.getElementById('c3');
-      var c4D = document.getElementById('c4');
-      var c5D = document.getElementById('c5');
-      var c1I = document.getElementById('c1img');
-      var c2I = document.getElementById('c2img');
-      var c3I = document.getElementById('c3img');
-      var c4I = document.getElementById('c4img');
-      var c5I = document.getElementById('c5img');
-      var creditsDiv = document.getElementById('credits');
-      var drawButton = document.getElementById('drawbutton');
-      var dealButton = document.getElementById('dealbutton');
-      var loginButton = document.getElementById('loginButton');
+      });
+      $("#drawbutton").on('mousedown', function(e) {
+        propStop(e);
+        vptID.gameStatus = 'newvptID';
+        if (vptID.gameStatus === 'newvptID') {
+          newvptIDF();
+          $("#dealdrawbutton").off('mousedown');
+        }
+      });
+    }
+  }
+  request.send(JSON.stringify(params));
+}
+evtDeets('touchend');
 
-      function updateTable(hvalueT, res) {
-        if (res === 'reset') $('#' + hvalueT).removeClass('payouthighlight');
-        else $('#' + hvalueT).addClass('payouthighlight');
+function evtDeets(typeevt) {
+  document.addEventListener(typeevt, function(e) {
+    propStop(e);
+    if (vptID.RSide = 'true') {
+      if(e.target.id === 'RSX') {
+         $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
+      vptID.RSide = false;
       }
-
-      function updatePayout(payout) {
-        $('#payout').text(payout);
-      }
-
-      function updateBestHand(hvalue) {
-        var longStr = vptID['acronym'][hvalue];
-        // console.log('bh', hvalue, longStr);
-        $('#besthand').text(longStr);
-      }
-
-      function updateCredits(creditsD) {
-        // console.log(creditsD);
-        $("#credits").text(creditsD);
-      }
-
-      function updateCards(cards) {
-        // console.log('cardsD', cards);
-        // console.log('vptID', vptID);
-        $("#c1img").attr('src', "img/" + cards[0] + "c.png");
-        c2I.src = "img/" + cards[1] + "c.png";
-        c3I.src = "img/" + cards[2] + "c.png";
-        c4I.src = "img/" + cards[3] + "c.png";
-        c5I.src = "img/" + cards[4] + "c.png";
-      }
-
-      function loginF(loginData) {
-        var request = new XMLHttpRequest();
-        // console.log('loginData', loginData);
-        request.open("POST", "/api/login");
-        var vptIDJSON = {};
-        // request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.setRequestHeader("Content-type", "application/json");
-        request.onreadystatechange = function() {
-          if (request.readyState === 4 && request.status == 200) {
-            $("#loginButton").hide();
-            $("#usernameInput").hide();
-            $("#passwordInput").text('');
-            $("#passwordInput").hide();
-
-            // console.log('request', request);
-            vptIDJSON = JSON.parse(request.response);
-            // console.log('vptIDJSON', vptIDJSON);
-            window.localStorage.setItem('jwtvp', vptIDJSON.token);
-            vptID.username = vptIDJSON.username;
-            vptID.credits = vptIDJSON.credits;
-            updateCredits(vptID.credits);
-            $("#usernameRDiv").text("Username: " + vptID.username);
-            $("#logoutButton").addClass('visib');
-              $("#loginSpan").text(vptID.username);
-            $("#logoutButton").on('touchend', function(e) {
-              e.preventDefault();
-              e.stopPropagation();
-              delete window.localStorage.jwtvp;
-              $("#logoutButton").removeClass('visib');
-              $("#loginButton").show();
-              $("#usernameInput").show();
-              $("#passwordInput").show();
-            });
-            $("#logoutButton").on('mousepress', function(e) {
-              e.preventDefault();
-              e.stopPropagation();
-              delete window.localStorage.jwtvp;
-              $("#logoutButton").removeClass('visib');
-              $("#loginButton").show();
-              $("#usernameInput").show();
-              $("#passwordInput").show();
-                            $("#loginSpan").text('Login');
-
-            });
-          }
+      if (e.target.id === 'usernameInput') {
+        $("#usernameInput").trigger("focus");
+      } else if (e.target.id === 'passwordInput') {
+        $("#passwordInput").trigger("focus");
+      } else if (e.target.id === 'usernameInputR') {
+        $("#usernameInputR").trigger("focus");
+      } else if (e.target.id === 'passwordInputR') {
+        $("#passwordInputR").trigger("focus");
+      } else if (e.target.id === 'emailInputR') {
+        $("#emailInputR").trigger("focus");
+      } else if (e.target.id === 'loginButton') {
+        var loginD = {
+          username: document.getElementById("usernameInput").value,
+          password: document.getElementById("passwordInput").value
         };
-        // console.log('loginData', loginData);
-        request.send(JSON.stringify(loginData));
-      }
-
-      function dealHandF() {
-        for (var i = 0; i < 5; i++) {
-          if (vptID.holdCards[i] !== 0) {
-            document.getElementById('c' + (i + 1)).classList.remove("holding");
-            document.getElementById('c' + (i + 1)).classList.add("discards");
-          }
-        }
-        vptID.win = '-';
-        updatePayout(vptID.win);
-        updateTable('--', 'reset');
-        // console.log('dealHandF');
-        vptID.holdCards = [0, 0, 0, 0, 0];
-        var request = new XMLHttpRequest();
-        var params = "wager=" + vptID.wager;
-        var vptIDJSON2 = {};
-        request.open("POST", "/api/vp/deal/user");
-        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.setRequestHeader("x-access-token", window.localStorage.jwtvp);
-        request.onreadystatechange = function() {
-          if (request.readyState === 4 && request.status == 200) {
-            // console.log('request', request);
-            vptIDJSON2 = JSON.parse(request.response);
-            // console.log('deal', vptIDJSON2);
-            vptID.tID = vptIDJSON2.tID;
-            vptID.dealHand = vptIDJSON2.dealHand;
-            vptID.handValue = vptIDJSON2.handValue;
-            vptID.credits = vptIDJSON2.credits;
-            updateCredits(vptIDJSON2.credits);
-            updateCards(vptIDJSON2.dealHand);
-            updateBestHand(vptIDJSON2.handValue);
-            updateTable(vptIDJSON2.handValue);
-            vptID.gameStatus = 'deal';
-            cTouchOnAll();
-            cMouseOnAll();
-            $('#gamestatus').text(vptID.gameStatus);
-            $("#dealdrawbutton").text('DRAW');
-            $("#dealdrawbutton").on('touchend', function(e) {
-              e.preventDefault();
-              e.stopImmediatePropagation();
-              e.stopPropagation();
-              vptID.gameStatus = 'draw';
-              if (vptID.gameStatus === 'draw') {
-                drawHandF();
-                $("#dealdrawbutton").off('touchend');
-              }
-            });
-            $("#dealdrawbutton").on('mousedown', function(e) {
-              e.preventDefault();
-              e.stopImmediatePropagation();
-              e.stopPropagation();
-              vptID.gameStatus = 'draw';
-              if (vptID.gameStatus === 'draw') {
-                drawHandF();
-                $("#dealdrawbutton").off('mousedown');
-              }
-            });
-          }
-        }
-        request.send(params);
-      };
-
-      function drawHandF() {
-        updateTable(vptID.handValue, 'reset');
-        var request = new XMLHttpRequest();
-        var params = {
-          holdCards: vptID.holdCards,
-          tID: vptID.tID
+        loginF(loginD);
+        document.getElementById("passwordInput").value = '';
+      } else if (e.target.id === 'registerButton') {
+        var regInfo = {
+          'username': document.getElementById("usernameInputR").value,
+          'email': document.getElementById("emailInputR").value,
+          'password': document.getElementById("passwordInputR").value
         };
-        var vptIDJSON3 = 0;
-        request.open("POST", "/api/vp/draw/user");
-        request.setRequestHeader("Content-type", "application/json");
-        request.setRequestHeader("x-access-token", window.localStorage.jwtvp);
-        request.onreadystatechange = function() {
-          if (request.readyState === 4 && request.status == 200) {
-            vptIDJSON3 = JSON.parse(request.response);
-            // console.log('vptIDJSON3', vptIDJSON3);
-            vptID.credits = vptIDJSON3.credits;
-            vptID.win = vptIDJSON3.win;
-            vptID.drawHand = vptIDJSON3.drawHand;
-            vptID.handValue = vptIDJSON3.handValue;
-            updateCredits(vptIDJSON3.credits);
-            updateCards(vptID.drawHand);
-            updatePayout(vptID.win);
-            updateBestHand(vptID.handValue);
-            updateTable(vptID.handValue);
-            $('#gamestatus').text(vptID.gameStatus);
-            $("#dealdrawbutton").text('DEAL');
-            $("#dealdrawbutton").on('touchend', function(e) {
-              e.preventDefault();
-              e.stopImmediatePropagation();
-              e.stopPropagation();
-              updateTable(vptID.handValue, 'reset');
-              vptID.gameStatus = 'deal';
-              if (vptID.gameStatus === 'deal') {
-                dealHandF();
-                $("#dealdrawbutton").off('touchend');
-              }
-            });
-            $("#dealdrawbutton").on('mousedown', function(e) {
-              e.preventDefault();
-              e.stopImmediatePropagation();
-              e.stopPropagation();
-              updateTable(vptID.handValue, 'reset');
-              vptID.gameStatus = 'deal';
-              if (vptID.gameStatus === 'deal') {
-                dealHandF();
-                $("#dealdrawbutton").off('mousedown');
-              }
-            });
-          }
+        registerF(regInfo);
+      }
+      if (e.target.id === 'showLogin') {
+        $("#loginFormDiv").toggle();
+      } else if (e.target.id != 'panel-02' && e.target.offsetParent.id !== 'panel-02' && e.target.parentElement.offsetParent.id !== 'panel-02') {
+        $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
+      } else if (e.target.id === 'showRegister') {
+        $("#registerFormDiv").toggle();
+      }
+    }
+    if (e.target.id !== 'panel-02' && e.target.offsetParent.id !== 'panel-02' && e.target.parentElement.offsetParent.id !== 'panel-02') {
+      $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
+      vptID.RSide = false;
+    }
+    holdCardFF(e, ['c1img', 'c2img', 'c3img', 'c4img', 'c5img'], [c1D, c2D, c3D, c4D, c5D]);
+    buttonFn(e, ['dealbutton', 'drawbutton', 'p2']);
+
+    function buttonFn(e, tarID, fna) {
+      if (e.target.id === 'p2') {
+        $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
+        vptID.RSide = 'true';
+      }
+      if (e.target.id === 'dealbutton') {
+        dealHandF();
+      } else if (e.target.id === 'drawbutton') drawHandF();
+      else if (vptID.gameStatus === 'draw' || vptID.gameStatus === 'bet') {
+        if (e.target.id === 'wagerup') {
+          if (vptID.wager < vptID.credits) vptID.wager += 1;
+          $("#wager").text(vptID.wager);
         }
-        // var paramsJ = JSON.stringify(params);
-        request.send(JSON.stringify(params));
+        if (e.target.id === 'wagerdown') {
+          if (vptID.wager < vptID.credits) vptID.wager -= 1;
+          $("#wager").text(vptID.wager);
+        }
       }
+    }
 
-      function cTouchOn(cD) {
-        cD.addEventListener('touchend', function(e) {
-          e.preventDefault();
-          e.stopImmediatePropagation();
-          e.stopPropagation();
-          if (vptID.gameStatus === 'deal') {
-            // console.log('vptID.gameStatus', vptID.gameStatus);
-            // console.log('etouch', e);
-            // console.log('touchthis', this);
-            this.classList.toggle('discards');
-            this.classList.toggle('holding');
-            var ind = parseInt(this.id.toString().charAt(1)) - 1;
-            // console.log('ind', ind);
-            if (vptID.holdCards[ind] === 0) vptID.holdCards[ind] = vptID.dealHand[ind];
-            else vptID.holdCards[ind] = 0;
-            // console.log('vptID.holdCards', vptID.holdCards);
-          }
-        });
+    function holdCardFF(e, tarID, el) {
+      for (var i = 0; tarID.length > i; i++) {
+        if (e.target.id === tarID[i]) {
+          el[i].classList.toggle('discards');
+          el[i].classList.toggle('holding');
+          if (vptID.holdCards[i] === 0) vptID.holdCards[i] = vptID.dealHand[i];
+          else vptID.holdCards[i] = 0;
+          break;
+        }
       }
+      return;
+    }
+  });
+}
 
-      function cMouseOn(cD) {
-        cD.addEventListener('mousedown', function(e) {
-          e.preventDefault();
-          e.stopImmediatePropagation();
-          e.stopPropagation();
-          if (vptID.gameStatus === 'deal') {
-            // console.log('vptID.gameStatus', vptID.gameStatus);
-            // console.log('etouch', e);
-            // console.log('touchthis', this);
-            this.classList.toggle('discards');
-            this.classList.toggle('holding');
-            var ind = parseInt(this.id.toString().charAt(1)) - 1;
-            // console.log('ind', ind);
-            if (vptID.holdCards[ind] === 0) vptID.holdCards[ind] = vptID.dealHand[ind];
-            else vptID.holdCards[ind] = 0;
-            // console.log('vptID.holdCards', vptID.holdCards);
-          }
-        });
+function propStop(evt) {
+  evt.preventDefault();
+  evt.stopImmediatePropagation();
+  evt.stopPropagation();
+}
+
+function dealButtonF() {
+  $("#logoutButton").toggle();
+  $(document).on('keydown', function(evk) {
+    if (vptID.gameStatus === 'deal' && vptID.RSide === false) {
+      if (evk.keyCode === 65) {
+        propStop(evk);
+        $("#c1").toggleClass('holding');
+        vptID.holdCards[0] = vptID.holdCards[0] === 0 ? vptID.dealHand[0] : 0;
+      } else if (evk.keyCode === 83) {
+        propStop(evk);
+        $("#c2").toggleClass('holding');
+        vptID.holdCards[1] = vptID.holdCards[1] === 0 ? vptID.dealHand[1] : 0;
+      } else if (evk.keyCode === 68) {
+        propStop(evk);
+        $("#c3").toggleClass('holding');
+        vptID.holdCards[2] = vptID.holdCards[2] === 0 ? vptID.dealHand[2] : 0;
+      } else if (evk.keyCode === 70) {
+        propStop(evk);
+        $("#c4").toggleClass('holding');
+        vptID.holdCards[2] = vptID.holdCards[3] === 0 ? vptID.dealHand[3] : 0;
+      } else if (evk.keyCode === 71) {
+        propStop(evk);
+        $("#c5").toggleClass('holding');
+        vptID.holdCards[4] = vptID.holdCards[4] === 0 ? vptID.dealHand[4] : 0;
       }
+    }
+  });
+}
 
-      function cTouchOnAll() {
-        cTouchOn(c1D);
-        cTouchOn(c2D);
-        cTouchOn(c3D);
-        cTouchOn(c4D);
-        cTouchOn(c5D);
-      };
 
-      function cMouseOnAll() {
-        cMouseOn(c1D);
-        cMouseOn(c2D);
-        cMouseOn(c3D);
-        cMouseOn(c4D);
-        cMouseOn(c5D);
-      }
-      var sideBarOpen = false;
+function registerF(regInfo) {
+  var vptIDJSONR = {};
+  $.ajax({
+    type: "POST",
+    url: "/api/register",
+    data: JSON.stringify(regInfo),
+    dataType: 'json',
+    contentType: 'application/json',
+    success: function(data) {
+      vptIDJSONR = data;
+      vptID.gameStatus = 'login';
+      $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
+      vptID.RSide = false;
+      window.localStorage.setItem('jwtvp', vptIDJSONR.token);
+      delete vptIDJSONR.token;
+      updObjProps(vptIDJSONR, vptID);
+    },
+    fail: function(err) {
+      // console.log('errreg', err);
+    }
+  });
+};
 
-      function dealButtonF() {
-        $("#p2").on('touchend', function(evk2) {
-          sideBarOpen = true;
-          // console.log('sideBarOpen', sideBarOpen);
-          $(document).on('touchstart', function(eek) {
-            // console.log('contne1');
-            // console.log('eek', eek.target);
-            if (eek.target.id != "loginButton" && eek.target.id != "panel-02" && eek.target.id != 'usernameInput' && eek.target.id != 'passwordInput') {
-              sideBarOpen = false;
-              $(document).off('touchstart');
-            }
-            // console.log('sideBarOpen2Conten1', sideBarOpen);
-          });
-        });
-        $("#p2").on('mousedown', function(evk2) {
-          evk2.preventDefault();
-          evk2.stopPropagation();
-          sideBarOpen = true;
-          // console.log('sideBarOpen', sideBarOpen);
-          $("#content1").on('mousedown', function(eek) {
-            eek.stopPropagation();
-            // console.log('eek', eek.target);
-            if (eek.target.id != "loginButton" && eek.target.id != "panel-02" && eek.target.id != 'usernameInput' && eek.target.id != 'passwordInput') {
-              sideBarOpen = false;
-              $(document).off('mousedown');
-            }
-            // console.log('sideBarOpen2Conten1', sideBarOpen);
-          });
-        });
-        $(document).on('keydown', function(evk) {
-          if (vptID.gameStatus === 'deal' && sideBarOpen === false) {
-            if (evk.keyCode === 65) {
-              evk.preventDefault();
-              evk.stopPropagation();
-              $("#c1").toggleClass('holding');
-              if (vptID.holdCards[0] === 0) vptID.holdCards[0] = vptID.dealHand[0];
-              else vptID.holdCards[0] = 0;
-              // console.log('vptID.holdCards', vptID.holdCards);
-            } else if (evk.keyCode === 83) {
-              evk.preventDefault();
-              evk.stopPropagation();
-              $("#c2").toggleClass('holding');
-              if (vptID.holdCards[1] === 0) vptID.holdCards[1] = vptID.dealHand[1];
-              else vptID.holdCards[1] = 0;
-              // console.log('vptID.holdCards', vptID.holdCards);
-            } else if (evk.keyCode === 68) {
-              evk.preventDefault();
-              evk.stopPropagation();
-              $("#c3").toggleClass('holding');
-              if (vptID.holdCards[2] === 0) vptID.holdCards[2] = vptID.dealHand[2];
-              else vptID.holdCards[2] = 0;
-              // console.log('vptID.holdCards', vptID.holdCards);
-            } else if (evk.keyCode === 70) {
-              evk.preventDefault();
-              evk.stopPropagation();
-              $("#c4").toggleClass('holding');
-              if (vptID.holdCards[3] === 0) vptID.holdCards[3] = vptID.dealHand[3];
-              else vptID.holdCards[3] = 0;
-              // console.log('vptID.holdCards', vptID.holdCards);
-            } else if (evk.keyCode === 71) {
-              evk.preventDefault();
-              evk.stopPropagation();
-              $("#c5").toggleClass('holding');
-              if (vptID.holdCards[4] === 0) vptID.holdCards[4] = vptID.dealHand[4];
-              else vptID.holdCards[4] = 0;
-              // console.log('vptID.holdCards', vptID.holdCards);
-            }
-          }
-        });
-        $("#loginButton").on('touchend', function(e) {
-          // console.log('loginBut');
-          e.preventDefault();
-          e.stopPropagation();
-          var loginD = {
-            username: document.getElementById("usernameInput").value,
-            password: document.getElementById("passwordInput").value
-          };
-          // console.log('loginD', loginD);
-          loginF(loginD);
-        });
-        $("#loginButton").on('mousedown', function(e) {
-          // console.log('mousedownlogbutton');
-          e.preventDefault();
-          e.stopPropagation();
-          var loginD = {
-            username: document.getElementById("usernameInput").value,
-            password: document.getElementById("passwordInput").value
-          };
-          // console.log('loginD', loginD);
-          loginF(loginD);
-        });
-        $("#dealdrawbutton").on('touchend', function(ev) {
-          ev.preventDefault();
-          ev.stopImmediatePropagation();
-          ev.stopPropagation();
-          $(this).off('touchend');
-          // console.log('dButtonF');
-          dealHandF();
-        });
-        $("#dealdrawbutton").on('mousedown', function(ev) {
-          ev.preventDefault();
-          ev.stopImmediatePropagation();
-          ev.stopPropagation();
-          $(this).off('mousedown');
-          // console.log('dButtonF');
-          dealHandF();
-        });
-        $("#wagerup").on('touchend', function(ev2) {
-          ev2.preventDefault();
-          ev2.stopImmediatePropagation();
-          ev2.stopPropagation();
-          if (vptID.wager < vptID.credits) vptID.wager += 1;
-          // $(this).off('touchend');
-          // console.log('wagerup');
-          if (vptID.gameStatus === 'draw' || vptID.gameStatus === 'bet') $("#wager").text(vptID.wager);
-        });
-        $("#wagerup").on('mousedown', function(ev2) {
-          ev2.preventDefault();
-          ev2.stopImmediatePropagation();
-          ev2.stopPropagation();
-          if (vptID.wager < vptID.credits) vptID.wager += 1;
-          // $(this).off('touchend');
-          // console.log('wagerup');
-          if (vptID.gameStatus === 'draw' || vptID.gameStatus === 'bet') $("#wager").text(vptID.wager);
-        });
-        $("#wagerdown").on('touchend', function(ev1) {
-          ev1.preventDefault();
-          ev1.stopImmediatePropagation();
-          ev1.stopPropagation();
-          if (vptID.wager > 0) vptID.wager -= 1;
-          // $(this).off('touchend');
-          // console.log('wagerup');
-          if (vptID.gameStatus === 'draw' || vptID.gameStatus === 'bet') $("#wager").text(vptID.wager);
-        });
-        $("#wagerdown").on('mousedown', function(ev1) {
-          ev1.preventDefault();
-          ev1.stopImmediatePropagation();
-          ev1.stopPropagation();
-          if (vptID.wager > 0) vptID.wager -= 1;
-          // $(this).off('touchend');
-          // console.log('wagerup');
-          if (vptID.gameStatus === 'draw' || vptID.gameStatus === 'bet') $("#wager").text(vptID.wager);
-        });
-      }
-      $(document).ready(dealButtonF);
+$(document).ready(dealButtonF);
