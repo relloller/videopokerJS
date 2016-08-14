@@ -343,7 +343,7 @@ function dealButtonF() {
       } else if (evk.keyCode === 70) {
         propStop(evk);
         $("#c4").toggleClass('holding');
-        vptID.holdCards[2] = vptID.holdCards[3] === 0 ? vptID.dealHand[3] : 0;
+        vptID.holdCards[3] = vptID.holdCards[3] === 0 ? vptID.dealHand[3] : 0;
       } else if (evk.keyCode === 71) {
         propStop(evk);
         $("#c5").toggleClass('holding');
@@ -372,7 +372,7 @@ function registerF(regInfo) {
       updObjProps(vptIDJSONR, vptID);
     },
     fail: function(err) {
-      // console.log('errreg', err);
+      console.log('errreg', err);
     }
   });
 };
