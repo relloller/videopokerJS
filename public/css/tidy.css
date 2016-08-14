@@ -1,0 +1,421 @@
+/*** uncss> filename: public/css/jquery.mobile.css ***/
+/*!
+* jQuery Mobile 1.4.5
+* Git HEAD hash: 68e55e78b292634d3991c795f06f5e37a512decc <> Date: Fri Oct 31 2014 17:33:30 UTC
+* http://jquerymobile.com
+*
+* Copyright 2010, 2014 jQuery Foundation, Inc. and othercontributors
+* Released under the MIT license.
+* http://jquery.org/license
+*
+*/
+
+
+/* Globals */
+/* Font
+-----------------------------------------------------------------------------------------------------------*/
+html {
+	font-size: 100%;
+}
+body,
+input,
+button,
+.ui-btn {
+	font-size: 1em;
+	line-height: 1.3;
+	       font-family: sans-serif /*{global-font-family}*/;
+}
+/* Form labels (overrides font-weight bold in bars, and mini font-size) */
+/* Separators
+-----------------------------------------------------------------------------------------------------------*/
+/* Field contain separator (< 28em) */
+/* Table opt-in classes: strokes between each row, and alternating row stripes */
+/* Classes table-stroke and table-stripe are deprecated in 1.4. */
+/* Buttons
+-----------------------------------------------------------------------------------------------------------*/
+.ui-btn {
+	font-weight: bold;
+	border-width: 1px;
+	border-style: solid;
+}
+.ui-btn {
+	text-decoration: none !important;
+}
+/* Corner rounding
+-----------------------------------------------------------------------------------------------------------*/
+/* Class ui-btn-corner-all deprecated in 1.4 */
+/* Buttons */
+.ui-btn-corner-all {
+	-webkit-border-radius: .3125em /*{global-radii-buttons}*/;
+	border-radius: .3125em /*{global-radii-buttons}*/;
+}
+/* Icon-only buttons */
+.ui-btn-icon-notext.ui-btn-corner-all {
+	-webkit-border-radius: 1em;
+	border-radius: 1em;
+}
+/* Radius clip workaround for cleaning up corner trapping */
+.ui-btn-corner-all {
+	-webkit-background-clip: padding;
+	background-clip: padding-box;
+}
+/* Popup arrow */
+/* Shadow
+-----------------------------------------------------------------------------------------------------------*/
+.ui-shadow {
+	-webkit-box-shadow: 0 1px 3px /*{global-box-shadow-size}*/ rgba(0,0,0,.2) /*{global-box-shadow-color}*/;
+	-moz-box-shadow: 0 1px 3px /*{global-box-shadow-size}*/ rgba(0,0,0,.2) /*{global-box-shadow-color}*/;
+	box-shadow: 0 1px 3px /*{global-box-shadow-size}*/ rgba(0,0,0,.2) /*{global-box-shadow-color}*/;
+}
+/* Icons
+-----------------------------------------------------------------------------------------------------------*/
+.ui-btn-icon-notext:after {
+	background-color: #666666 /*{global-icon-color}*/;
+	background-color: rgba(0,0,0,.15) /*{global-icon-disc}*/;
+	background-position: center center;
+	background-repeat: no-repeat;
+	-webkit-border-radius: 1em;
+	border-radius: 1em;
+}
+/* Alt icons */
+/* No disc */
+/* Icon shadow */
+/* Checkbox and radio */
+/* Loader */
+/* Swatches */
+/* A
+-----------------------------------------------------------------------------------------------------------*/
+/* Bar: Toolbars, dividers, slider track */
+.ui-bar-a {
+	background-color: #306232 /*{a-bar-background-color}*/;
+	border-color: #438946 /*{a-bar-border}*/;
+	color: #ffffff /*{a-bar-color}*/;
+	text-shadow: 0 /*{a-bar-shadow-x}*/ 1px /*{a-bar-shadow-y}*/ 0 /*{a-bar-shadow-radius}*/ #444444 /*{a-bar-shadow-color}*/;
+	font-weight: bold;
+}
+.ui-bar-a {
+	border-width: 1px;
+	border-style: solid;
+}
+/* Page and overlay */
+/* Body: Read-only lists, text inputs, collapsible content */
+/* Links */
+html .ui-bar-a a {
+	color: #3388cc /*{a-link-color}*/;
+	font-weight: bold;
+}
+html .ui-bar-a a:visited {
+    color: #3388cc /*{a-link-visited}*/;
+}
+html .ui-bar-a a:hover {
+	color: #005599 /*{a-link-hover}*/;
+}
+html .ui-bar-a a:active {
+	color: #005599 /*{a-link-active}*/;
+}
+/* Button up */
+html .ui-bar-a .ui-btn,
+html .ui-bar-a .ui-btn:visited {
+	background-color: #f6f6f6 /*{a-bup-background-color}*/;
+	border-color: #dddddd /*{a-bup-border}*/;
+	color: #333333 /*{a-bup-color}*/;
+	text-shadow: 0 /*{a-bup-shadow-x}*/ 1px /*{a-bup-shadow-y}*/ 0 /*{a-bup-shadow-radius}*/ #f3f3f3 /*{a-bup-shadow-color}*/;
+}
+/* Button hover */
+html .ui-bar-a .ui-btn:hover {
+	background-color: #ededed /*{a-bhover-background-color}*/;
+	border-color: #dddddd /*{a-bhover-border}*/;
+	color: #333333 /*{a-bhover-color}*/;
+	text-shadow: 0 /*{a-bhover-shadow-x}*/ 1px /*{a-bhover-shadow-y}*/ 0 /*{a-bhover-shadow-radius}*/ #f3f3f3 /*{a-bhover-shadow-color}*/;
+}
+/* Button down */
+html .ui-bar-a .ui-btn:active {
+	background-color: #e8e8e8 /*{a-bdown-background-color}*/;
+	border-color: #dddddd /*{a-bdown-border}*/;
+	color: #333333 /*{a-bdown-color}*/;
+	text-shadow: 0 /*{a-bdown-shadow-x}*/ 1px /*{a-bdown-shadow-y}*/ 0 /*{a-bdown-shadow-radius}*/ #f3f3f3 /*{a-bdown-shadow-color}*/;
+}
+/* Active button */
+/* Active radio button icon */
+/* Focus */
+html .ui-bar-a .ui-btn:focus {
+	-webkit-box-shadow: 0 0 12px #3388cc /*{a-active-background-color}*/;
+	-moz-box-shadow: 0 0 12px #3388cc /*{a-active-background-color}*/;
+	box-shadow: 0 0 12px #3388cc /*{a-active-background-color}*/;
+}
+/* B
+-----------------------------------------------------------------------------------------------------------*/
+/* Bar: Toolbars, dividers, slider track */
+/* Page and overlay */
+/* Body: Read-only lists, text inputs, collapsible content */
+/* Links */
+/* Button up */
+/* Button hover */
+/* Button down */
+/* Active button */
+/* Active radio button icon */
+/* Focus */
+
+
+/* C
+-----------------------------------------------------------------------------------------------------------*/
+/* Bar: Toolbars, dividers, slider track */
+/* Page and overlay */
+/* Body: Read-only lists, text inputs, collapsible content */
+/* Links */
+/* Button up */
+/* Button hover */
+/* Button down */
+/* Active button */
+/* Active radio button icon */
+/* Focus */
+
+
+/* Structure */
+/* Disabled
+-----------------------------------------------------------------------------------------------------------*/
+/* Class ui-disabled deprecated in 1.4. :disabled not supported by IE8 so we use [disabled] */
+/* Focus state outline
+-----------------------------------------------------------------------------------------------------------*/
+.ui-btn:focus {
+	outline: 0;
+}
+/* Unset box-shadow in browsers that don't do it right */
+			 
+/*** uncss> filename: public/css/jquery.mobile.icons.min.css ***/
+/*! jQuery Mobile 1.4.5 | Git HEADhash: 68e55e7 <> 2014-10-31T17:33:30Z | (c) 2010, 2014 jQuery Foundation, Inc. | jquery.org/license */.ui-icon-grid:after{background-image:url("data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22iso-8859-1%22%3F%3E%3C!DOCTYPE%20svg%20PUBLIC%20%22-%2F%2FW3C%2F%2FDTD%20SVG%201.1%2F%2FEN%22%20%22http%3A%2F%2Fwww.w3.org%2FGraphics%2FSVG%2F1.1%2FDTD%2Fsvg11.dtd%22%3E%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20%20width%3D%2214px%22%20height%3D%2214px%22%20viewBox%3D%220%200%2014%2014%22%20style%3D%22enable-background%3Anew%200%200%2014%2014%3B%22%20xml%3Aspace%3D%22preserve%22%3E%3Cpath%20fill%3D%22%23FFF%22%20d%3D%22M3%2C0H1C0.447%2C0%2C0%2C0.447%2C0%2C1v2c0%2C0.553%2C0.447%2C1%2C1%2C1h2c0.553%2C0%2C1-0.447%2C1-1V1C4%2C0.447%2C3.553%2C0%2C3%2C0z%20M8%2C0H6%20C5.447%2C0%2C5%2C0.447%2C5%2C1v2c0%2C0.553%2C0.447%2C1%2C1%2C1h2c0.553%2C0%2C1-0.447%2C1-1V1C9%2C0.447%2C8.553%2C0%2C8%2C0z%20M13%2C0h-2c-0.553%2C0-1%2C0.447-1%2C1v2%20c0%2C0.553%2C0.447%2C1%2C1%2C1h2c0.553%2C0%2C1-0.447%2C1-1V1C14%2C0.447%2C13.553%2C0%2C13%2C0z%20M3%2C5H1C0.447%2C5%2C0%2C5.447%2C0%2C6v2c0%2C0.553%2C0.447%2C1%2C1%2C1h2%20c0.553%2C0%2C1-0.447%2C1-1V6C4%2C5.447%2C3.553%2C5%2C3%2C5z%20M8%2C5H6C5.447%2C5%2C5%2C5.447%2C5%2C6v2c0%2C0.553%2C0.447%2C1%2C1%2C1h2c0.553%2C0%2C1-0.447%2C1-1V6%20C9%2C5.447%2C8.553%2C5%2C8%2C5z%20M13%2C5h-2c-0.553%2C0-1%2C0.447-1%2C1v2c0%2C0.553%2C0.447%2C1%2C1%2C1h2c0.553%2C0%2C1-0.447%2C1-1V6C14%2C5.447%2C13.553%2C5%2C13%2C5z%20M3%2C10%20H1c-0.553%2C0-1%2C0.447-1%2C1v2c0%2C0.553%2C0.447%2C1%2C1%2C1h2c0.553%2C0%2C1-0.447%2C1-1v-2C4%2C10.447%2C3.553%2C10%2C3%2C10z%20M8%2C10H6c-0.553%2C0-1%2C0.447-1%2C1v2%20c0%2C0.553%2C0.447%2C1%2C1%2C1h2c0.553%2C0%2C1-0.447%2C1-1v-2C9%2C10.447%2C8.553%2C10%2C8%2C10z%20M13%2C10h-2c-0.553%2C0-1%2C0.447-1%2C1v2c0%2C0.553%2C0.447%2C1%2C1%2C1h2%20c0.553%2C0%2C1-0.447%2C1-1v-2C14%2C10.447%2C13.553%2C10%2C13%2C10z%22%2F%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3C%2Fsvg%3E")}.ui-icon-home:after{background-image:url("data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22iso-8859-1%22%3F%3E%3C!DOCTYPE%20svg%20PUBLIC%20%22-%2F%2FW3C%2F%2FDTD%20SVG%201.1%2F%2FEN%22%20%22http%3A%2F%2Fwww.w3.org%2FGraphics%2FSVG%2F1.1%2FDTD%2Fsvg11.dtd%22%3E%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20%20width%3D%2214px%22%20height%3D%2214px%22%20viewBox%3D%220%200%2014%2014%22%20style%3D%22enable-background%3Anew%200%200%2014%2014%3B%22%20xml%3Aspace%3D%22preserve%22%3E%3Cpolygon%20fill%3D%22%23FFF%22%20points%3D%227%2C0%200%2C7%202%2C7%202%2C14%205%2C14%205%2C9%209%2C9%209%2C14%2012%2C14%2012%2C7%2014%2C7%20%22%2F%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3C%2Fsvg%3E")} 
+/*** uncss> filename: public/css/jquery.mobile.structure-1.4.5.min.css ***/
+/*! jQuery Mobile 1.4.5 | Git HEADhash: 68e55e7 <> 2014-10-31T17:33:30Z | (c) 2010, 2014 jQuery Foundation, Inc. | jquery.org/license */@-moz-document url-prefix(){}.ui-header{border-width:1px 0;border-style:solid;position:relative}.ui-header .ui-title{font-size:1em;min-height:1.1em;text-align:center;display:block;margin:0 30%;padding:.7em 0;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;outline:0!important}.ui-btn{font-size:16px;margin:.5em 0;padding:.7em 1em;display:block;position:relative;text-align:center;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.ui-btn-icon-notext{padding:0;width:1.75em;height:1.75em;text-indent:-9999px;white-space:nowrap!important}.ui-header .ui-btn{font-size:12.5px;display:inline-block;vertical-align:middle}.ui-header .ui-btn-left,.ui-header .ui-btn-right{font-size:12.5px}.ui-header .ui-btn-icon-notext{font-size:16px;padding:0}.ui-btn-icon-notext:after{content:"";position:absolute;display:block;width:22px;height:22px}.ui-btn-icon-notext:after{top:50%;margin-top:-11px}.ui-btn-icon-notext:after{left:50%;margin-left:-11px}.ui-header .ui-btn-left,.ui-header .ui-btn-right{margin:0}.ui-btn-left,.ui-btn-right{position:absolute;top:.24em}.ui-btn-left{left:.4em}.ui-btn-right{right:.4em}.ui-btn-icon-notext.ui-btn-left{top:.3125em;left:.3125em}.ui-btn-icon-notext.ui-btn-right{top:.3125em;right:.3125em}.ui-controlgroup-controls a.ui-shadow:not(:focus),.ui-controlgroup-controls button.ui-shadow:not(:focus){-moz-box-shadow:none;-webkit-box-shadow:none;box-shadow:none}@-moz-document url-prefix(){} 
+/*** uncss> filename: public/css/videopokerstyle2.css ***/
+.rowcards {
+    margin-left: 2%;
+    margin-right: 2%;
+    width: 95%;
+    clear: both;
+    margin-top: 0px;
+    box-sizing: border-box;
+}
+
+#loginFormDiv {
+    display: none;
+}
+
+#registerFormDiv {
+    display: none;
+}
+
+.rowc {
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    margin-top: 3px;
+    width: 100%;
+    clear: both;
+    font-size: 1.2em;
+}
+
+
+/*
+#registerButton {
+  visibility: visible;
+}
+
+#loginButton {
+  visibility: visible;
+}
+*/
+
+.cards {
+    /*display: inline-block;
+border-style: solid;
+border-color: blue;
+border-width: thin;
+
+height:330px;
+width:208px;
+padding: 5px;
+margin-top: 5px;
+max-width: 100px;
+*/
+    max-height: auto;
+    overflow: auto;
+    padding: 3px;
+    box-sizing: border-box;
+}
+
+.colc {
+    width: 19.5%;
+    float: left;
+    box-sizing: border-box;
+}
+
+.keyselect {
+    font-size: 0.8em;
+    text-align: center;
+}
+
+.colstat-besthand {
+    width: 30%;
+    float: left;
+}
+
+#besthand {
+    text-align: center;
+    color: #3A59FE;
+    font-size: 1.0em;
+    font-weight: bold;
+    padding: 1px;
+    width: 30%;
+}
+
+.colstat-wager {
+    width: 20%;
+    float: left;
+}
+
+#wager {
+    width: 33%;
+    text-align: center;
+    font-size: 1.0em;
+    float: left;
+}
+
+#wagerup {
+    width: 33%;
+    text-align: center;
+    float: left;
+    font-size: 1.0em;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: white;
+    background-color: #4b8f29;
+    border: 0 none;
+    border-radius: 5px;
+    text-shadow: 0 -1px 0 #000;
+    text-align: center;
+    box-shadow: 0 1px 0 #666, 0 5px 0 #444, 0 6px 6px rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+}
+
+#wagerdown {
+    width: 33%;
+    text-align: center;
+    float: left;
+    font-size: 1.0em;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: white;
+    background-color: #4b8f29;
+    border: 0 none;
+    border-radius: 5px;
+    text-shadow: 0 -1px 0 #000;
+    text-align: center;
+    box-shadow: 0 1px 0 #666, 0 5px 0 #444, 0 6px 6px rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+}
+
+.colstat-money {
+    width: 15%;
+    float: left;
+}
+
+#credits {
+    float: left;
+    color: black;
+    font-size: 1.1em;
+    text-align: center;
+    width: 15%;
+}
+
+.colstat-payout {
+    width: 10%;
+    float: left;
+}
+
+#payout {
+    text-align: center;
+    font-size: 1.2em;
+    /*padding:2px;*/
+    width: 10%;
+}
+
+#dealbutton {
+    color: white;
+    background-color: Green;
+    width: 20%;
+    margin-top: -15px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#drawbutton {
+    display: none;
+    color: white;
+    background-color: FireBrick;
+    width: 20%;
+    margin-top: -15px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cards img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.r3tabs {
+    text-align: center;
+}
+
+.discards {
+    box-sizing: border-box;
+}
+
+.divbuttons {
+    float: left;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: white;
+    background-color: #4b8f29;
+    border: 0 none;
+    border-radius: 5px;
+    text-shadow: 0 -1px 0 #000;
+    text-align: center;
+    box-shadow: 0 1px 0 #666, 0 5px 0 #444, 0 6px 6px rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+}
+
+table {
+    margin: auto;
+    margin-top: -7px;
+    margin-bottom: 0px;
+    border-style: solid;
+    border-width: 0px;
+    border-radius: 15px;
+    border-color: #DC0C18;
+    border-bottom-width: 1px;
+    border-bottom-color: black;
+}
+
+#payouttabletabs {
+    background-color: #DC0C18;
+    color: white;
+}
+
+#payouttable {
+    width: 75%;
+    font-size: 1.0em;
+    line-height: 1.0em;
+    padding: 1px;
+}
+
+
+/*089DE3 3A59FE*/
+
+.even {
+    background-color: #eee;
+    padding: 1px;
+}
