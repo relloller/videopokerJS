@@ -11,8 +11,10 @@ var vpGameSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    dealTime: {type:Date, default: Date.now},
     dealCards: [Number],
     holdCards: [Number],
+    drawTime: {type:Date},
     drawCards: [Number],
     wagerResult: {
         type: Number,

@@ -49,8 +49,8 @@ function drawF(req, res) {
     	return handleError(res, err);
     }
     if(data.drawCards.length === 5 || data.holdCards.length === 5) return res.status(404).send('Game with submitted tID closed');
-    console.log('drawdata',data);
-    //checks if submitted HOLD cards are valid
+    // console.log('drawdata',data);
+    //checks if submitted HOLD cards are contained in original deal cards
     for (var i = 0; i < 5; i++) {
       if (holdCardsClone[i] !== 0) {
         if (holdCardsClone[i] !== data.dealCards[i]) {
@@ -63,6 +63,7 @@ function drawF(req, res) {
     data.holdCards = holdCardsClone;
     data.drawCards = drawCards;
     data.handValue = currentHand.Value;
+    data.drawTime = Date.now();
     data['wagerResult'] = currentHand.payX * data.wager;
     var wagerResult1 = data['wagerResult'];
     data.save(function(err) {
