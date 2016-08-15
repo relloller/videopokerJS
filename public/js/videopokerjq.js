@@ -235,14 +235,15 @@ function drawHandF() {
   request.send(JSON.stringify(params));
 }
 evtDeets('touchend');
+evtDeets('mousedown');
 
 function evtDeets(typeevt) {
   document.addEventListener(typeevt, function(e) {
     propStop(e);
     if (vptID.RSide = 'true') {
-      if(e.target.id === 'RSX') {
-         $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
-      vptID.RSide = false;
+      if (e.target.id === 'RSX') {
+        $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
+        vptID.RSide = false;
       }
       if (e.target.id === 'usernameInput') {
         $("#usernameInput").trigger("focus");
@@ -270,13 +271,13 @@ function evtDeets(typeevt) {
         registerF(regInfo);
       } else if (e.target.id === 'showLogin') {
         $("#loginFormDiv").toggle();
-      } else if (e.target.id != 'panel-02' && e.target.offsetParent.id !== 'panel-02' && e.target.parentElement.offsetParent.id !== 'panel-02') {
+      } else if (e.target.id != 'panel-02' && e.target.offsetParent.id && e.target.offsetParent.id !== 'panel-02' && e.target.parentElement.offsetParent.id !== 'panel-02') {
         $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
       } else if (e.target.id === 'showRegister') {
         $("#registerFormDiv").toggle();
       }
     }
-    if (e.target.id !== 'panel-02' && e.target.offsetParent.id !== 'panel-02' && e.target.parentElement.offsetParent.id !== 'panel-02') {
+    if (e.target.id !== 'panel-02' && e.target.offsetParent.id && e.target.offsetParent.id !== 'panel-02' && e.target.parentElement.offsetParent.id !== 'panel-02') {
       $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
       vptID.RSide = false;
     }
@@ -290,8 +291,11 @@ function evtDeets(typeevt) {
       }
       if (e.target.id === 'dealbutton') {
         dealHandF();
-      } else if (e.target.id === 'drawbutton') drawHandF();
-      else if (vptID.gameStatus === 'draw' || vptID.gameStatus === 'bet') {
+      } else if (e.target.id === 'drawbutton') { 
+        drawHandF(); 
+      } 
+
+      if (vptID.gameStatus === 'draw' || vptID.gameStatus === 'bet' || vptID.gameStatus === 'login') {
         if (e.target.id === 'wagerup') {
           if (vptID.wager < vptID.credits) vptID.wager += 1;
           $("#wager").text(vptID.wager);
@@ -353,7 +357,6 @@ function dealButtonF() {
   });
 }
 
-
 function registerF(regInfo) {
   var vptIDJSONR = {};
   $.ajax({
@@ -376,5 +379,4 @@ function registerF(regInfo) {
     }
   });
 };
-
 $(document).ready(dealButtonF);
