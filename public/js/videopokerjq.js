@@ -291,10 +291,9 @@ function evtDeets(typeevt) {
       }
       if (e.target.id === 'dealbutton') {
         dealHandF();
-      } else if (e.target.id === 'drawbutton') { 
-        drawHandF(); 
-      } 
-
+      } else if (e.target.id === 'drawbutton') {
+        drawHandF();
+      }
       if (vptID.gameStatus === 'draw' || vptID.gameStatus === 'bet' || vptID.gameStatus === 'login') {
         if (e.target.id === 'wagerup') {
           if (vptID.wager < vptID.credits) vptID.wager += 1;
@@ -308,16 +307,18 @@ function evtDeets(typeevt) {
     }
 
     function holdCardFF(e, tarID, el) {
-      for (var i = 0; tarID.length > i; i++) {
-        if (e.target.id === tarID[i]) {
-          el[i].classList.toggle('discards');
-          el[i].classList.toggle('holding');
-          if (vptID.holdCards[i] === 0) vptID.holdCards[i] = vptID.dealHand[i];
-          else vptID.holdCards[i] = 0;
-          break;
+      if (vptID.gameStatus === 'deal') {
+        for (var i = 0; tarID.length > i; i++) {
+          if (e.target.id === tarID[i]) {
+            el[i].classList.toggle('discards');
+            el[i].classList.toggle('holding');
+            if (vptID.holdCards[i] === 0) vptID.holdCards[i] = vptID.dealHand[i];
+            else vptID.holdCards[i] = 0;
+            break;
+          }
         }
+        return;
       }
-      return;
     }
   });
 }
