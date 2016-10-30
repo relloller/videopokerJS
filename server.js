@@ -1,4 +1,4 @@
-/** https://github.com/vegascodes/videopokerJS **/
+/** https://github.com/relloller/videopokerJS **/
 var http = require('http');
 var express = require('express');
 var compression = require('compression');
@@ -11,12 +11,12 @@ var morgan = require('morgan');
 var path = require('path');
 var api = require('./api/index.js');
 
-var app = require('express')();
+var app = express();
 
 app.use(compression());
 app.use(morgan('dev'));
 
-//swagger & API CORS 
+//CORS settings for swagger.IO & API documentation
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, x-access-token, x-staff-token, X-Requested-With, Content-Type, Accept");
@@ -24,16 +24,12 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-
 app.use(express.static('public'));
 
 app.use('/api', api);
 
 app.listen(process.env.PORT || 8080, function() {
-    console.log("vegas.codes server listening", process.env.port || 8080);
+    console.log("videopokerjs server listening on port ", process.env.port || 8080);
 });
