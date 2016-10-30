@@ -6,7 +6,7 @@ var Users = require('./users/users.controller.js')
 var authUser = require('./auth/authUser.js');
 var VP = require('./videopoker/videopoker.controller.js');
 router.get('/', function(req, res) {
-    res.status(200).send('vegas.codes API');
+    res.status(200).send('videopokerJS.com API');
 });
 
 
