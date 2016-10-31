@@ -121,7 +121,7 @@ function updateCards(cards) {
   c5I.src = "img/" + cards[4] + "min.png";
 }
 
-function loginF(loginData) {
+function loginF(loginData, evttype1) {
   var request = new XMLHttpRequest();
   request.open("POST", "/api/login");
   var vptIDJSON = {};
@@ -137,20 +137,20 @@ function loginF(loginData) {
       // console.log('vptIDJSON', vptIDJSON);
       delete vptIDJSON.token;
       updObjProps(vptIDJSON, vptID);
-      $("#logoutButton").on('touchend', function(e) {
+      $("#logoutButton").on(evttype1, function(e) {
         propStop(e);
         delete window.localStorage.jwtvp;
         $("#logoutButton").toggle();
         $("#showLogin").toggle();
         $("#loginSpan").text('Login');
       });
-      $("#logoutButton").on('mousepress', function(e) {
-        propStop(e);
-        delete window.localStorage.jwtvp;
-        $("#logoutButton").toggle();
-        $("#showLogin").toggle();
-        $("#loginSpan").text('Login');
-      });
+      // $("#logoutButton").on('mousepress', function(e) {
+      //   propStop(e);
+      //   delete window.localStorage.jwtvp;
+      //   $("#logoutButton").toggle();
+      //   $("#showLogin").toggle();
+      //   $("#loginSpan").text('Login');
+      // });
     }
   };
   request.send(JSON.stringify(loginData));
@@ -194,7 +194,7 @@ function dealHandF() {
   request.send(params);
 }
 
-function drawHandF() {
+function drawHandF(evttype2) {
   updateTable('reset');
   //example to show videopokerjs API call with XMLHttpRequest
   var request = new XMLHttpRequest();
@@ -214,30 +214,32 @@ function drawHandF() {
       vptIDJSON3 = JSON.parse(request.response);
       // console.log('vptIDJSON3', vptIDJSON3);
       updObjProps(vptIDJSON3, vptID);
-      $("#dealbutton").on('touchend', function(e) {
+      $("#dealbutton").on(evttype2, function(e) {
         propStop(e);
         vptID.gameStatus = 'newvptID';
         if (vptID.gameStatus === 'newvptID') {
           newvptIDF();
-          $("#dealbutton").off('touchend');
+          $("#dealbutton").off(evttype2);
         }
       });
-      $("#drawbutton").on('mousedown', function(e) {
-        propStop(e);
-        vptID.gameStatus = 'newvptID';
-        if (vptID.gameStatus === 'newvptID') {
-          newvptIDF();
-          $("#dealdrawbutton").off('mousedown');
-        }
-      });
+      // fixed
+      // changed drawbutton to dealbutton 
+      // $("#dealbutton").on('mousepress', function(e) {
+      //   propStop(e);
+      //   vptID.gameStatus = 'newvptID';
+      //   if (vptID.gameStatus === 'newvptID') {
+      //     newvptIDF();
+      //     $("#dealbutton").off('mousepress');
+      //   }
+      // });
     }
   }
   request.send(JSON.stringify(params));
 }
-evtDeets('touchend');
-evtDeets('mousedown');
-
+// evtDeets('touchend');
+// evtDeets('mousepress');
 function evtDeets(typeevt) {
+  console.log('typeevt', typeevt);
   document.addEventListener(typeevt, function(e) {
     propStop(e);
     if (vptID.RSide = 'true') {
@@ -260,7 +262,7 @@ function evtDeets(typeevt) {
           username: document.getElementById("usernameInput").value,
           password: document.getElementById("passwordInput").value
         };
-        loginF(loginD);
+        loginF(loginD, typeevt);
         document.getElementById("passwordInput").value = '';
       } else if (e.target.id === 'registerButton') {
         var regInfo = {
@@ -282,17 +284,17 @@ function evtDeets(typeevt) {
       vptID.RSide = false;
     }
     holdCardFF(e, ['c1img', 'c2img', 'c3img', 'c4img', 'c5img'], [c1D, c2D, c3D, c4D, c5D]);
-    buttonFn(e, ['dealbutton', 'drawbutton', 'p2']);
+    buttonFn(typeevt, e, ['dealbutton', 'drawbutton', 'p2']);
 
-    function buttonFn(e, tarID, fna) {
+    function buttonFn(typeevt1, e, tarID, fna) {
       if (e.target.id === 'p2') {
         $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
         vptID.RSide = 'true';
       }
       if (e.target.id === 'dealbutton') {
-        dealHandF();
+        dealHandF(typeevt1);
       } else if (e.target.id === 'drawbutton') {
-        drawHandF();
+        drawHandF(typeevt1);
       }
       if (vptID.gameStatus === 'draw' || vptID.gameStatus === 'bet' || vptID.gameStatus === 'login') {
         if (e.target.id === 'wagerup') {
@@ -331,6 +333,8 @@ function propStop(evt) {
 
 function dealButtonF() {
   $("#logoutButton").toggle();
+  evtDeets('touchend');
+  evtDeets('mousedown');
   $(document).on('keydown', function(evk) {
     if (vptID.gameStatus === 'deal' && vptID.RSide === false) {
       if (evk.keyCode === 65) {
