@@ -3,10 +3,7 @@ var request = require("request");
 var base_url = "http://localhost:8080/api";
 var jtoken = '';
 var handTest1 = {};
-var rnd = Math.floor((Math.random() * 9999999) + 1);
-var guestName = 'guest' + rnd.toString();
-
-describe("videopokerjs.com Server", function() {
+describe("vegas.codes Server", function() {
   describe("GET /api", function() {
     it("returns status code 200", function(done) {
       request.get(base_url, function(error, response, body) {
@@ -14,63 +11,9 @@ describe("videopokerjs.com Server", function() {
         done();
       });
     });
-    it("returns 'videopokerjs.com API'", function(done) {
+    it("returns 'vegas.codes API'", function(done) {
       request.get(base_url, function(error, response, body) {
-        expect(body).toBe("videopokerJS.com API");
-        done();
-      });
-    });
-  });
-
-  describe("POST /api/register", function() {
-    it("/api/register returns 200 status, username, credits, and JWT token", function(done) {
-      
-      request({
-        method: 'POST',
-        uri: base_url + '/register',
-        json: {
-          username: guestName,
-          password: guestName,
-          email: guestName + "@videopokerjs.com"
-        }
-      }, function(error, response, body) {
-        var reg1 = body;
-        expect(response.statusCode).toBe(200);
-        expect(typeof reg1.token).toBe('string');
-        expect(reg1.username).toBe(guestName);
-        expect(typeof reg1.credits).toBe('number')
-        done();
-      });
-    });
-it("/api/register returns 409 error for duplicate username registration", function(done) {
-      request({
-        method: 'POST',
-        uri: base_url + '/register',
-        json: {
-          username: guestName,
-          password: guestName,
-          email: guestName + "@videopokerjs.com"
-        }
-      }, function(error, response, body) {
-        var reg1 = body;
-        expect(response.statusCode).toBe(409);
-        done();
-      });
-    });
-
-    it("/api/register returns 400 status for incomplete field(s)", function(done) {
-      var rnd = Math.floor((Math.random() * 99999) + 1);
-      var guestName = 'guest' + rnd.toString();
-      request({
-        method: 'POST',
-        uri: base_url + '/register',
-        json: {
-          username: guestName,
-          password: guestName
-        }
-      }, function(error, response, body) {
-        expect(response.statusCode).toBe(400);
-        expect(body).toBe('All fields required')
+        expect(body).toBe("vegas.codes API");
         done();
       });
     });
@@ -110,15 +53,15 @@ it("/api/register returns 409 error for duplicate username registration", functi
         method: 'POST',
         uri: base_url + '/login',
         json: {
-          username: guestName,
-          password: guestName
+          username: 'guest001',
+          password: 'guest001'
         }
       }, function(error, response, body) {
         var login2 = body;
         expect(response.statusCode).toBe(200);
         expect(typeof login2.token).toBe('string');
         jtoken = login2.token;
-        expect(login2.username).toBe(guestName);
+        expect(login2.username).toBe('guest001');
         expect(typeof login2.credits).toBe('number')
         done();
       });
@@ -128,7 +71,7 @@ it("/api/register returns 409 error for duplicate username registration", functi
         method: 'POST',
         uri: base_url + '/login',
         json: {
-          username: guestName,
+          username: 'guest001',
           password: 'waefawefawefklasdf'
         }
       }, function(error, response, body) {
@@ -150,8 +93,8 @@ it("/api/register returns 409 error for duplicate username registration", functi
       }, function(error, response, body) {
         var me = JSON.parse(body);
         expect(response.statusCode).toBe(200);
-        expect(me.username).toBe(guestName);
-        expect(me.email).toBe(guestName+'@videopokerjs.com');
+        expect(me.username).toBe('guest001');
+        expect(me.email).toBe('guest001@vegas.codes');
         expect(me.role).toBe('player');
         expect(typeof me.credits).toBe('number')
         done();
@@ -298,6 +241,44 @@ it("/api/register returns 409 error for duplicate username registration", functi
       }, function(error, response, body) {
         expect(response.statusCode).toBe(404);
         expect(body).toBe('Game with submitted tID closed');
+        done();
+      });
+    });
+  });
+  describe("POST /api/register", function() {
+    it("/api/register returns 200 status, username, credits, and JWT token", function(done) {
+      var rnd = Math.floor((Math.random() * 99999) + 1);
+      var guestName = 'guest' + rnd.toString();
+      request({
+        method: 'POST',
+        uri: base_url + '/register',
+        json: {
+          username: guestName,
+          password: guestName,
+          email: guestName + "@vegas.codes"
+        }
+      }, function(error, response, body) {
+        var reg1 = body;
+        expect(response.statusCode).toBe(200);
+        expect(typeof reg1.token).toBe('string');
+        expect(reg1.username).toBe(guestName);
+        expect(typeof reg1.credits).toBe('number')
+        done();
+      });
+    });
+    it("/api/register returns 400 status for incomplete field(s)", function(done) {
+      var rnd = Math.floor((Math.random() * 99999) + 1);
+      var guestName = 'guest' + rnd.toString();
+      request({
+        method: 'POST',
+        uri: base_url + '/register',
+        json: {
+          username: guestName,
+          password: guestName
+        }
+      }, function(error, response, body) {
+        expect(response.statusCode).toBe(400);
+        expect(body).toBe('All fields required')
         done();
       });
     });

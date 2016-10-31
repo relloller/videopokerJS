@@ -1,4 +1,3 @@
-
 /** /api/vegascodesdev.js **/
 
 var deck52 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52];
@@ -20,7 +19,7 @@ function deepClone(arr) {
   return arrCopy;
 }
 
-//callback cb for each element in array
+//cb for each element in array
 function each(arr, cb) {
   for (var i = 0, len = arr.length; i < len; i++) cb(arr[i]);
 }
@@ -43,12 +42,6 @@ function deal1Card(deck) {
   return deck.splice(rndNum(deck), 1)[0];
 }
 
-
-//deals 5 cards from deck. returns array(int) of 5 cards.
-function deal5() {
-  return dealNCards(deepClone(deck52), 5);
-}
-
 //deals N card(s) from deck. returns array(int) of N cards.
 function dealNCards(deck, N) {
   var cards = [];
@@ -56,14 +49,10 @@ function dealNCards(deck, N) {
   return cards;
 }
 
-//similar to dealNCards function
-function drawN(deckRestore, holdCardsArr) {
-  // var deckRestoreClone = deepClone(deckRestore);
-  for (var i = 0; i < 5; i++) {
-    if (holdCardsArr[i] === 0) holdCardsArr[i] = deckRestore.splice(rndNum(deckRestore), 1)[0];
-  }
-  return holdCardsArr;
-};
+//deals 5 cards from deck. returns array(int) of 5 cards.
+function deal5() {
+  return dealNCards(deepClone(deck52), 5);
+}
 
 //restores deck from previous deal given array of dealt cards
 function restoreDeck(dealtCards, deck) {
@@ -75,6 +64,14 @@ function restoreDeck(dealtCards, deck) {
   return deckClone;
 }
 
+//similar to dealNCards function
+function drawN(deckRestore, holdCardsArr) {
+  // var deckRestoreClone = deepClone(deckRestore);
+  for (var i = 0; i < 5; i++) {
+    if (holdCardsArr[i] === 0) holdCardsArr[i] = deckRestore.splice(rndNum(deckRestore), 1)[0];
+  }
+  return holdCardsArr;
+};
 
 //logic for checking value of hand
 function handMatch(arr1, arr2) {
@@ -249,11 +246,11 @@ function handValueF(hData) {
   }
 
   function fullhouse() {
-    return (hData.countMaxMatches == 2 && hData.uniqArrL === 2);
+    return (hData.countMaxMatches == 2 && hData.uniqArrL === 2)
   };
 
   function fourofakind() {
-    return hData.countMaxMatches === 3;
+    return hData.countMaxMatches === 3
   }
 
   function straightflush() {
@@ -285,3 +282,74 @@ function handValueF(hData) {
   if (royalflush()) payout = {Value: 'RF', payX: 800 };
   return payout;
 };
+
+// console.log('rf?',handChecker([52,51,50,49,40]));
+
+// console.log('st', handChecker([9, 13, 12, 11, 10]));
+// console.log('sf', handChecker([52, 51, 50, 49, 40]));
+// console.log('jb', handChecker([52, 13, 50, 49, 40]));
+// console.log(hData.uniqArr.reduce(function(total,num){return total+num;},0)); 
+/****
+
+console.log('vegascodesdev load');
+// console.log(dealNCards(deck52, 5));
+// // var handCheckerVar = handChecker([2, 4, 17, 29, 38, 52, 1, 2, 15, 3, 28]);
+// console.time('2');
+// var containRecursiveVar = containsArrRecursive(handConvert13Base([2, 1, 15, 28, 17]), 0, 0, 0);
+// var handValueRecurseVar = handValue(containRecursiveVar);
+// console.timeEnd('2');
+// console.log('containRecursiveVar', containRecursiveVar);
+// console.log('handValueRecurseVar', handValueRecurseVar);
+//****
+console.time('1');
+var hCheck = containsArrClosure([28, 16, 46, 3, 50]);
+var handValueVar = handValue(hCheck);
+// // cmatches.length == 5 && cmatched[cmatched.length - 1] - cmatched[0] == 4;
+// // if (hCheck.uniqArrL === 3 && hCheck.countMax === 0 && hCheck.uniqArr[0] === 1) console.log('straight w Ace');
+console.timeEnd('1');
+console.log('hCheck', hCheck);
+console.log('handValueVar', handValueVar);
+console.log(handValueF(hCheck));
+//***
+
+console.log('st',handChecker([1,13,12,11,10]));
+console.log('st',handChecker([9,43,13,26,34]));
+
+// if (hCheck.uniqArrL === 3 && hCheck.countMax === 1) console.log('two pair');
+// return countmax == 3 && cmatches.length == 3;
+// var handCheckerVar = handChecker([1, 2, 15, 3, 28]);
+// handChecker([1, 2, 15, 3, 28]);
+// console.log(handConvert13Base([2, 4, 17, 29, 38, 52, 1, 2, 15, 3, 28]));
+// console.log('handChecker', handChecker([2, 4, 17, 29, 38, 52, 1, 2, 15, 3, 28]));
+// console.log('restore deck', restoreDeck([32, 11, 9, 10, 8, 33, 31], deck52));
+
+
+***/
+// console.log(handChecker([ 7, 12, 6, 9, 1 ]));
+// console.log(handChecker([ 49, 16, 42, 28, 41 ]));
+/******
+// console.log('yo dealNCards');
+var hand1 = dealNCards(deepClone(deck52), 5);
+// console.log('dealNCards hand1', hand1);
+var hand1Test = deepClone(hand1);
+hand1Test[4] = 1;
+console.log('dealNCards hand1Test', hand1Test);
+var hand1Value = handChecker(hand1);
+// console.log('dealNCards hand1Value', hand1Value);
+var restoredDeck = restoreDeck(hand1, deck52);
+// console.log('dealNCards restoredDeck', restoredDeck);
+var hand2 = drawN(restoredDeck, [0, 0, 0, 0, 0]);
+console.log('dealNCards hand2', hand2);
+hand2Test = deepClone(hand2);
+hand2Test[4] = 1;
+// console.log('dealNCards hand2test', hand2Test);
+var hand2Value = handChecker(hand2);
+console.log('dealNCards hand2Value', hand2Value);
+console.log('sf', handChecker([1, 2, 3, 4, 5]));
+console.log('handMatch', handMatch(hand1Test, hand2));
+**/
+// console.log('_.union', _.union(hand2, hand1));
+// var restoredDeck2 = restoreDeck(dealNCards(deepClone(deck52),5), deck52);
+// dealNCards(deepClone(deck52),5);
+/****
+ ***/
