@@ -2,14 +2,14 @@
 var VideoPoker = require('./videopoker.model.js');
 var User = require('../users/users.model.js');
 var vegasCodes = require('../vegascodesdev.js');
+
 module.exports = {
   deal: dealF,
   draw: drawF
 };
 
+//deal initial 5 cards
 function dealF(req, res) {
-  var dealHand = vegasCodes.deal5();
-  var dealHandData = vegasCodes.handChecker(dealHand);
   var credits1 = 0;
   User.findOne({
     'username': req.body.decoded.username
@@ -20,7 +20,8 @@ function dealF(req, res) {
     credits1 = data.credits;
     data.save(function(err) {
       if (err) return handleError(err);
-      // var handValue1 = vegasCodes.handChecker(dealHandData);
+      var dealHand = vegasCodes.deal5();
+  		var dealHandData = vegasCodes.handChecker(dealHand);
       VideoPoker.create({
         username: req.body.decoded.username,
         dealCards: dealHand,
@@ -38,13 +39,15 @@ function dealF(req, res) {
   });
 };
 
+//draw new cards after initial cards have been dealt
 function drawF(req, res) {
-  if (Array.isArray(req.body.holdCards) === false) return res.status(405).send('Invalid input');
-  if (req.body.holdCards.length !== 5) return res.status(405).send('Invalid input');
+  if (Array.isArray(req.body.holdCards) === false) return res.status(405).send('Invalid input type');
+  if (req.body.holdCards.length !== 5) return res.status(405).send('Invalid input length');
   var holdCardsClone = vegasCodes.deepCloneInt(req.body.holdCards);
+
   VideoPoker.findById(req.body.tID, function(err, data) {
     if (err)  {
-    	console.log('err',err);
+    	console.log('err drawF',err);
     	if(err.path === '_id' && err.reason === undefined) return res.status(404).send('Game not found');
     	return handleError(res, err);
     }
@@ -52,11 +55,9 @@ function drawF(req, res) {
     // console.log('drawdata',data);
     //checks if submitted HOLD cards are contained in original deal cards
     for (var i = 0; i < 5; i++) {
-      if (holdCardsClone[i] !== 0) {
-        if (holdCardsClone[i] !== data.dealCards[i]) {
+      if (holdCardsClone[i] !== 0 && holdCardsClone[i] !== data.dealCards[i]) {
           return res.status(405).send('Invalid input');
         }
-      }
     }
     var drawCards = vegasCodes.drawN(vegasCodes.restoreDeck(data.dealCards, vegasCodes.deck52), holdCardsClone);
     var currentHand = vegasCodes.handChecker(drawCards);
@@ -88,4 +89,4 @@ function drawF(req, res) {
 
 function handleError(res, err) {
   return res.status(500).send('500 error');
-};
+}
