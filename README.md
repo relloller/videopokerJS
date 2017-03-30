@@ -12,8 +12,8 @@ navigate to /videopokerJS folder
 	4) After server is running, open new terminal, navigate to /videopokerJS and run Jasmine tests
 			jasmine
 
-In browser navigate to http://localhost:8080 
-Click 'Play videopoker' to play 
-Click on top right to signup 
-Click DEAL button
+ 	In browser navigate to http://localhost:8080 
+	Click 'Play videopoker' to play 
+ 	Click on top right to signup 
+ 	Click DEAL button
 		
