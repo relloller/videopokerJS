@@ -130,7 +130,7 @@ function loginF(loginData, evttype1) {
   request.setRequestHeader("Authorization", "Basic "+window.btoa(loginData['username']+":"+loginData['password']));
   request.onreadystatechange = function() {
     if (request.readyState === 4 && request.status == 200) {
-      if(location.pathname!=="/index2.html")location.pathname = "/index2.html";
+      if(location.pathname!=="/index.html")location.pathname = "/index.html";
       vptID.gameStatus = 'login';
       document.getElementById("passwordInput").value = '';
       $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
@@ -170,7 +170,7 @@ function registerF(regInfo) {
   request.setRequestHeader("Authorization", "Basic "+window.btoa(regInfo['username']+':'+regInfo['password']));
   request.onreadystatechange= function () {
     if (request.readyState === 4 && request.status == 200) {
-      if(location.pathname!=="/index2.html")location.pathname = "/index2.html";
+      if(location.pathname!=="/index.html")location.pathname = "/index.html";
       vptIDJSONR = JSON.parse(request.response);
       // vptIDJSONR=request.response;
       console.log('vptIDJSONR', vptIDJSONR,vptIDJSONR.token);
