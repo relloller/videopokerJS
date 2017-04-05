@@ -17,12 +17,21 @@ passport.use(new LocalStrategy({}, function(username, password, done) {
                 message: 'User not found.'
             });
         }
-        if (!user.validatePassword(password)) {
-            return done(null, false, {
-                message: 'Incorrect password.'
+        // if (!user.validatePassword(password)) {
+        //     return done(null, false, {
+        //         message: 'Incorrect password.'
+        //     });
+        // }
+        user.validatePassword(password, function(err,result){
+            if(err) return err;
+            if(result===true){
+                return done(null, user);
+            } else {
+                return done(null, false, {
+                message: 'User not found.'
             });
-        }
-        return done(null, user);
+            }
+        })
     });
 }
 ));

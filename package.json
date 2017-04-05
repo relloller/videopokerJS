@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/vegascodes/videopokerJS#readme",
   "dependencies": {
+    "bcrypt": "^1.0.2",
     "body-parser": "^1.15.2",
     "compression": "^1.6.2",
     "express": "^4.14.0",

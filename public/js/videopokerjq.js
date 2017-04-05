@@ -122,21 +122,26 @@ function updateCards(cards) {
 }
 
 function loginF(loginData, evttype1) {
+  console.log('loginData', loginData);
   var request = new XMLHttpRequest();
   request.open("POST", "/api/login");
   var vptIDJSON = {};
-  request.setRequestHeader("Content-type", "application/json");
+  request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  request.setRequestHeader("Authorization", "Basic "+window.btoa(loginData['username']+":"+loginData['password']));
   request.onreadystatechange = function() {
     if (request.readyState === 4 && request.status == 200) {
+      if(location.pathname!=="/index2.html")location.pathname = "/index2.html";
       vptID.gameStatus = 'login';
+      document.getElementById("passwordInput").value = '';
       $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
       vptID.RSide = false;
-      // console.log('request', request.response);
+      console.log('request', request);
       vptIDJSON = JSON.parse(request.response);
       window.localStorage.setItem('jwtvp', vptIDJSON.token);
-      // console.log('vptIDJSON', vptIDJSON);
+      console.log('vptIDJSON', vptIDJSON);
       delete vptIDJSON.token;
       updObjProps(vptIDJSON, vptID);
+
       $("#logoutButton").on(evttype1, function(e) {
         propStop(e);
         delete window.localStorage.jwtvp;
@@ -153,8 +158,51 @@ function loginF(loginData, evttype1) {
       // });
     }
   };
-  request.send(JSON.stringify(loginData));
+  request.send(null);
 }
+
+function registerF(regInfo) {
+  var vptIDJSONR = {};
+  var params = {email:regInfo.email};
+  var request = new XMLHttpRequest();
+  request.open("POST", "/api/register");
+  request.setRequestHeader("Content-type", "application/json");
+  request.setRequestHeader("Authorization", "Basic "+window.btoa(regInfo['username']+':'+regInfo['password']));
+  request.onreadystatechange= function () {
+    if (request.readyState === 4 && request.status == 200) {
+      if(location.pathname!=="/index2.html")location.pathname = "/index2.html";
+      vptIDJSONR = JSON.parse(request.response);
+      // vptIDJSONR=request.response;
+      console.log('vptIDJSONR', vptIDJSONR,vptIDJSONR.token);
+      vptID.gameStatus = 'login';
+      $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
+      vptID.RSide = false;
+      window.localStorage.setItem('jwtvp', vptIDJSONR.token);
+      delete vptIDJSONR.token;
+      updObjProps(vptIDJSONR, vptID);
+    }
+  }
+  request.send(JSON.stringify(params));
+  // $.ajax({
+  //   type: "POST",
+  //   url: "/api/register",
+  //   data: JSON.stringify(regInfo),
+  //   dataType: 'json',
+  //   contentType: 'application/json',
+  //   success: function(data) {
+  //     vptIDJSONR = data;
+  //     vptID.gameStatus = 'login';
+  //     $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
+  //     vptID.RSide = false;
+  //     window.localStorage.setItem('jwtvp', vptIDJSONR.token);
+  //     delete vptIDJSONR.token;
+  //     updObjProps(vptIDJSONR, vptID);
+  //   },
+  //   fail: function(err) {
+  //     console.log('errreg', err);
+  //   }
+  // });
+};
 //resets state variable for new game
 function newvptIDF() {
   updateTable("reset");
@@ -263,7 +311,7 @@ function evtDeets(typeevt) {
           password: document.getElementById("passwordInput").value
         };
         loginF(loginD, typeevt);
-        document.getElementById("passwordInput").value = '';
+        // document.getElementById("passwordInput").value = '';
       } else if (e.target.id === 'registerButton') {
         var regInfo = {
           'username': document.getElementById("usernameInputR").value,
@@ -362,26 +410,5 @@ function dealButtonF() {
   });
 }
 
-function registerF(regInfo) {
-  var vptIDJSONR = {};
-  $.ajax({
-    type: "POST",
-    url: "/api/register",
-    data: JSON.stringify(regInfo),
-    dataType: 'json',
-    contentType: 'application/json',
-    success: function(data) {
-      vptIDJSONR = data;
-      vptID.gameStatus = 'login';
-      $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
-      vptID.RSide = false;
-      window.localStorage.setItem('jwtvp', vptIDJSONR.token);
-      delete vptIDJSONR.token;
-      updObjProps(vptIDJSONR, vptID);
-    },
-    fail: function(err) {
-      console.log('errreg', err);
-    }
-  });
-};
+
 $(document).ready(dealButtonF);
