@@ -19,9 +19,9 @@ function dealF(req, res) {
     else return res.status(400).send('Wager exceeds credits balance');
     credits1 = data.credits;
     data.save(function(err) {
-      if (err) return handleError(err);
+      if (err) return handleError(res, err);
       var dealHand = vegasCodes.deal5();
-  		var dealHandData = vegasCodes.handChecker(dealHand);
+      var dealHandData = vegasCodes.handChecker(dealHand);
       VideoPoker.create({
         username: req.body.decoded.username,
         dealCards: dealHand,
@@ -47,12 +47,10 @@ function drawF(req, res) {
 
   VideoPoker.findById(req.body.tID, function(err, data) {
     if (err)  {
-    	console.log('err drawF',err);
-    	if(err.path === '_id' && err.reason === undefined) return res.status(404).send('Game not found');
-    	return handleError(res, err);
+      if(err.path === '_id' && err.reason === undefined) return res.status(404).send('Game not found');
+      return handleError(res, err);
     }
     if(data.drawCards.length === 5 || data.holdCards.length === 5) return res.status(404).send('Game with submitted tID closed');
-    // console.log('drawdata',data);
     //checks if submitted HOLD cards are contained in original deal cards
     for (var i = 0; i < 5; i++) {
       if (holdCardsClone[i] !== 0 && holdCardsClone[i] !== data.dealCards[i]) {
