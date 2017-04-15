@@ -1,7 +1,6 @@
 /** ./api/index.js  **/
 var express = require('express');
 var router = express.Router();
-var vegasCodes = require('./vegascodesdev.js');
 var Users = require('./users/users.controller.js')
 var authUser = require('./auth/authUser.js');
 var VP = require('./videopoker/videopoker.controller.js');
