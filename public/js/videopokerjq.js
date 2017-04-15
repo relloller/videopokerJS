@@ -82,10 +82,19 @@ function updDom() {
 function updateLoggedInDom() {
   $("#logoutButton").toggle();
   $("#loginButton").toggle();
+  $("#showLogin").toggle();
   $("#registerButton").toggle();
+  $("#showRegister").toggle();
+  $("#usernameInputR").text('');
+  $("#usernameInputR").hide();
+  $("#passwordInputR").text('');
+  $("#passwordInputR").hide();    
+  $("#emailInputR").text('');
+  $("#emailInputR").hide();
   $("#usernameInput").hide();
   $("#passwordInput").text('');
   $("#passwordInput").hide();
+  $("#showLogout").toggle();
 }
 
 function updateUsername() {
@@ -122,7 +131,7 @@ function updateCards(cards) {
 }
 
 function loginF(loginData, evttype1) {
-  console.log('loginData', loginData);
+  // console.log('loginData', loginData);
   var request = new XMLHttpRequest();
   request.open("POST", "/api/login");
   var vptIDJSON = {};
@@ -172,9 +181,11 @@ function registerF(regInfo) {
     if (request.readyState === 4 && request.status == 200) {
       if(location.pathname!=="/index.html")location.pathname = "/index.html";
       vptIDJSONR = JSON.parse(request.response);
-      // vptIDJSONR=request.response;
+     vptID.gameStatus = 'login';
+     vptID.username = vptIDJSONR.username;
       console.log('vptIDJSONR', vptIDJSONR,vptIDJSONR.token);
-      vptID.gameStatus = 'login';
+            document.getElementById("passwordInputR").value = '';
+
       $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
       vptID.RSide = false;
       window.localStorage.setItem('jwtvp', vptIDJSONR.token);
@@ -183,25 +194,6 @@ function registerF(regInfo) {
     }
   }
   request.send(JSON.stringify(params));
-  // $.ajax({
-  //   type: "POST",
-  //   url: "/api/register",
-  //   data: JSON.stringify(regInfo),
-  //   dataType: 'json',
-  //   contentType: 'application/json',
-  //   success: function(data) {
-  //     vptIDJSONR = data;
-  //     vptID.gameStatus = 'login';
-  //     $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
-  //     vptID.RSide = false;
-  //     window.localStorage.setItem('jwtvp', vptIDJSONR.token);
-  //     delete vptIDJSONR.token;
-  //     updObjProps(vptIDJSONR, vptID);
-  //   },
-  //   fail: function(err) {
-  //     console.log('errreg', err);
-  //   }
-  // });
 };
 //resets state variable for new game
 function newvptIDF() {
@@ -260,7 +252,6 @@ function drawHandF(evttype2) {
       drawBtnJQ.hide();
       dealBtnJQ.show()
       vptIDJSON3 = JSON.parse(request.response);
-      // console.log('vptIDJSON3', vptIDJSON3);
       updObjProps(vptIDJSON3, vptID);
       $("#dealbutton").on(evttype2, function(e) {
         propStop(e);
@@ -270,22 +261,14 @@ function drawHandF(evttype2) {
           $("#dealbutton").off(evttype2);
         }
       });
-      // fixed
-      // changed drawbutton to dealbutton 
-      // $("#dealbutton").on('mousepress', function(e) {
-      //   propStop(e);
-      //   vptID.gameStatus = 'newvptID';
-      //   if (vptID.gameStatus === 'newvptID') {
-      //     newvptIDF();
-      //     $("#dealbutton").off('mousepress');
-      //   }
-      // });
+    
     }
   }
   request.send(JSON.stringify(params));
 }
-// evtDeets('touchend');
-// evtDeets('mousepress');
+
+evtDeets('touchend');
+evtDeets('mousepress');
 function evtDeets(typeevt) {
   console.log('typeevt', typeevt);
   document.addEventListener(typeevt, function(e) {
@@ -409,6 +392,65 @@ function dealButtonF() {
     }
   });
 }
+
+
+var backB = document.getElementById('backButton');
+backB.addEventListener('click', function (e) {
+    $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
+});backB.addEventListener('touchend', function (e) {
+    $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
+});
+var logoutB = document.getElementById('showLogout');
+logoutB.addEventListener('click', function (e) {
+    e.preventDefault();
+
+    $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
+  delete window.localStorage.jwtvp;
+   $("#loginSpan").text('');
+  $("#usernameRDiv").text('');
+  $("#logoutButton").toggle();
+  $("#loginButton").toggle();
+  $("#showLogin").toggle();
+  $("#registerButton").toggle();
+  $("#showRegister").toggle();
+    $("#usernameInput").text('');
+
+  $("#usernameInputR").text('');
+  $("#usernameInputR").show();
+  $("#passwordInputR").text('');
+  $("#passwordInputR").show();    
+  $("#emailInputR").text('');
+  $("#emailInputR").show();
+  $("#usernameInput").show();
+  $("#passwordInput").text('');
+  $("#passwordInput").show();
+  $("#showLogout").toggle();
+});
+
+logoutB.addEventListener('touchend', function (e) {
+  e.preventDefault();
+    $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
+  delete window.localStorage.jwtvp;
+   $("#loginSpan").text('');
+  $("#usernameRDiv").text('');
+  $("#logoutButton").toggle();
+  $("#loginButton").toggle();
+  $("#showLogin").toggle();
+  $("#registerButton").toggle();
+  $("#showRegister").toggle();
+    $("#usernameInput").text('');
+
+  $("#usernameInputR").text('');
+  $("#usernameInputR").show();
+  $("#passwordInputR").text('');
+  $("#passwordInputR").show();    
+  $("#emailInputR").text('');
+  $("#emailInputR").show();
+  $("#usernameInput").show();
+  $("#passwordInput").text('');
+  $("#passwordInput").show();
+  $("#showLogout").toggle();
+});
 
 
 $(document).ready(dealButtonF);

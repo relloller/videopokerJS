@@ -39,6 +39,15 @@
     visibility: hidden;
 }
 
+#showLogout {
+    /*visibility: ;*/
+    display: none;
+}
+
+/*#showLogout .displayLogout {
+    visibility: visible; 
+}*/
+
 #loginButton.invisib,
 #registerButton.invisib {
     visibility: none;
