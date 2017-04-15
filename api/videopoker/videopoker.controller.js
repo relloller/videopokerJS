@@ -1,7 +1,7 @@
 /** ./api/videopoker/videopoker.controller.js **/
 var VideoPoker = require('./videopoker.model.js');
 var User = require('../users/users.model.js');
-var vegasCodes = require('../vegascodesdev.js');
+var vp = require('../videopokerJS.js');
 
 module.exports = {
   deal: dealF,
@@ -20,8 +20,8 @@ function dealF(req, res) {
     credits1 = data.credits;
     data.save(function(err) {
       if (err) return handleError(res, err);
-      var dealHand = vegasCodes.deal5();
-      var dealHandData = vegasCodes.handChecker(dealHand);
+      var dealHand = vp.deal5();
+      var dealHandData = vp.handChecker(dealHand);
       VideoPoker.create({
         username: req.body.decoded.username,
         dealCards: dealHand,
@@ -43,7 +43,7 @@ function dealF(req, res) {
 function drawF(req, res) {
   if (Array.isArray(req.body.holdCards) === false) return res.status(405).send('Invalid input type');
   if (req.body.holdCards.length !== 5) return res.status(405).send('Invalid input length');
-  var holdCardsClone = vegasCodes.deepCloneInt(req.body.holdCards);
+  var holdCardsClone = vp.deepCloneInt(req.body.holdCards);
 
   VideoPoker.findById(req.body.tID, function(err, data) {
     if (err)  {
@@ -57,8 +57,8 @@ function drawF(req, res) {
           return res.status(405).send('Invalid input');
         }
     }
-    var drawCards = vegasCodes.drawN(vegasCodes.restoreDeck(data.dealCards, vegasCodes.deck52), holdCardsClone);
-    var currentHand = vegasCodes.handChecker(drawCards);
+    var drawCards = vp.drawN(data.dealCards, holdCardsClone);
+    var currentHand = vp.handChecker(drawCards);
     data.holdCards = holdCardsClone;
     data.drawCards = drawCards;
     data.handValue = currentHand.Value;

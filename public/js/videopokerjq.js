@@ -267,8 +267,8 @@ function drawHandF(evttype2) {
   request.send(JSON.stringify(params));
 }
 
-evtDeets('touchend');
-evtDeets('mousepress');
+// evtDeets('touchend');
+// evtDeets('mousepress');
 function evtDeets(typeevt) {
   console.log('typeevt', typeevt);
   document.addEventListener(typeevt, function(e) {
@@ -365,7 +365,7 @@ function propStop(evt) {
 function dealButtonF() {
   $("#logoutButton").toggle();
   evtDeets('touchend');
-  evtDeets('mousedown');
+  evtDeets('click');
   $(document).on('keydown', function(evk) {
     if (vptID.gameStatus === 'deal' && vptID.RSide === false) {
       if (evk.keyCode === 65) {
