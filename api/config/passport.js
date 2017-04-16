@@ -11,13 +11,13 @@ passport.use(new LocalStrategy({}, function(username, password, done) {
     }, function(err, user) {
         if (err) return done(err);
         if (!user) return done(null, false, {
-            message: 'User not found.'
+            message: 'Unauthorized: Access is denied due to invalid credentials.'
         });
         user.validatePassword(password, function(err, result) {
             if (err) return done(err);
             if (result === true) return done(null, user);
             else return done(null, false, {
-                message: 'User not found.'
+                message: 'Unauthorized: Access is denied due to invalid credentials.'
             });
         });
     });

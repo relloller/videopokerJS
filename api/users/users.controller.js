@@ -12,6 +12,7 @@ module.exports = {
 };
 
 function createUser(req, res) {
+    console.log('mochatest', req.headers.authorization);
     req.body.username = atobAuth(req.headers.authorization.substr(6)).username;
     req.body.password = atobAuth(req.headers.authorization.substr(6)).password;
     if (!req.body.email || !req.body.username || !req.body.password) {
@@ -28,6 +29,7 @@ function createUser(req, res) {
         user.save(function(err) {
             var token;
             if (err) {
+                console.log('err',err );
                 if (err.code === 11000) return res.status(409).send('username exists');
                 return handleError(res, err);
             }
@@ -57,7 +59,7 @@ function loginUser(req, res) {
                 'credits': user.credits
             });
         } else {
-            return res.status(401).send(info);
+            return res.status(401).send(info.message);
         }
     })(req, res);
 };

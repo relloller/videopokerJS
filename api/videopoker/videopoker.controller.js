@@ -41,8 +41,8 @@ function dealF(req, res) {
 
 //draw new cards after initial cards have been dealt
 function drawF(req, res) {
-  if (Array.isArray(req.body.holdCards) === false) return res.status(405).send('Invalid input type');
-  if (req.body.holdCards.length !== 5) return res.status(405).send('Invalid input length');
+  if (Array.isArray(req.body.holdCards) === false) return res.status(405).send('Invalid input.');
+  if (req.body.holdCards.length !== 5) return res.status(405).send('Invalid input.');
   var holdCardsClone = vp.deepCloneInt(req.body.holdCards);
 
   VideoPoker.findById(req.body.tID, function(err, data) {

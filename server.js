@@ -1,9 +1,11 @@
 /** https://github.com/relloller/videopokerJS **/
 var http = require('http');
+var assert = require('assert');
 var express = require('express');
 var compression = require('compression');
 var passport = require('passport');
 var mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 var db = require("./api/model/mongodb.js")
 require('./api/config/passport');
 var bodyParser = require('body-parser');
