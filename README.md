@@ -1,7 +1,8 @@
 # videopokerJS
 
     git clone https://github.com/relloller/videopokerJS
-navigate to /videopokerJS folder
+
+Navigate to /videopokerJS folder
 
 Install dependencies 
 
@@ -12,13 +13,13 @@ Start mongoDB
 Start node server
 
        node server.js
-After server is running, open new terminal, navigate to /videopokerJS and run Jasmine tests
+After server is running, open new terminal, navigate to /videopokerJS and run Mocha tests
 
-       jasmine
+       mocha
 
-In browser navigate to http://localhost:8080
+Open browser to http://localhost:8080
 
-Click on top right to create account/login
+Click on top right button to create account/login
 
 Click DEAL button
 		
