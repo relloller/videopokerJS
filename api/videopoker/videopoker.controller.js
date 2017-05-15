@@ -12,9 +12,10 @@ module.exports = {
 function dealF(req, res) {
   var credits1 = 0;
   User.findOne({
-    'username': req.body.decoded.username
+    'username': req.body.username
   }, function(err, data) {
     if (err) return handleError(res, err);
+    console.log('dealF data', data);
     if (data.credits >= req.body.wager) data.credits -= req.body.wager;
     else return res.status(400).send('Wager exceeds credits balance');
     credits1 = data.credits;
@@ -23,7 +24,7 @@ function dealF(req, res) {
       var dealHand = vp.deal5();
       var dealHandData = vp.handChecker(dealHand);
       VideoPoker.create({
-        username: req.body.decoded.username,
+        username: req.body.username,
         dealCards: dealHand,
         wager: req.body.wager
       }, function(err, data) {
@@ -50,6 +51,10 @@ function drawF(req, res) {
       if(err.path === '_id' && err.reason === undefined) return res.status(404).send('Game not found');
       return handleError(res, err);
     }
+    console.log('data',data);
+    console.log('req.body.username', req.body.username );
+    if(data.username!==req.body.username) return res.status(401).send('Unauthorized');
+
     if(data.drawCards.length === 5 || data.holdCards.length === 5) return res.status(404).send('Game with submitted tID closed');
     //checks if submitted HOLD cards are contained in original deal cards
     for (var i = 0; i < 5; i++) {
@@ -57,6 +62,7 @@ function drawF(req, res) {
           return res.status(405).send('Invalid input');
         }
     }
+    // if(data.username!==req.body.decoded) return res.status(401).send('Unauthorized');
     var drawCards = vp.drawN(data.dealCards, holdCardsClone);
     var currentHand = vp.handChecker(drawCards);
     data.holdCards = holdCardsClone;
@@ -68,7 +74,7 @@ function drawF(req, res) {
     data.save(function(err) {
       if (err) return handleError(res, err);
       User.findOne({
-        'username': req.body.decoded.username
+        'username': req.body.username
       }, function(err, data1) {
         if (err) return handleError(res, err);
         data1.credits += wagerResult1;

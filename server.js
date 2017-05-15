@@ -31,7 +31,9 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 app.use('/api', api);
-
+process.on('error', function (e) {
+	console.error('error in process',e);
+});
 app.listen(process.env.PORT || 8080, function() {
     console.log("videopokerjs server listening on port ", process.env.port || 8080);
 });

@@ -365,7 +365,8 @@ function propStop(evt) {
 function dealButtonF() {
   $("#logoutButton").toggle();
   evtDeets('touchend');
-  evtDeets('click');
+  // evtDeets('click');
+  evtDeets('mousedown');
   $(document).on('keydown', function(evk) {
     if (vptID.gameStatus === 'deal' && vptID.RSide === false) {
       if (evk.keyCode === 65) {
@@ -395,15 +396,20 @@ function dealButtonF() {
 
 
 var backB = document.getElementById('backButton');
-backB.addEventListener('click', function (e) {
-    $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
-});backB.addEventListener('touchend', function (e) {
+backB.addEventListener('mousepress', function (e) {
     $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
 });
-var logoutB = document.getElementById('showLogout');
-logoutB.addEventListener('click', function (e) {
-    e.preventDefault();
 
+backB.addEventListener('touchend', function (e) {
+  propStop(e);
+    $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
+});
+
+var logoutB = document.getElementById('showLogout');
+
+logoutB.addEventListener('click', function (e) {
+    // e.preventDefault();
+    propStop(e);
     $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
   delete window.localStorage.jwtvp;
    $("#loginSpan").text('');
@@ -428,7 +434,8 @@ logoutB.addEventListener('click', function (e) {
 });
 
 logoutB.addEventListener('touchend', function (e) {
-  e.preventDefault();
+  // e.preventDefault();
+  propStop(e);
     $("#panel-02").toggleClass('ui-panel-open ui-panel-closed');
   delete window.localStorage.jwtvp;
    $("#loginSpan").text('');

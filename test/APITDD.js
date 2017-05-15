@@ -1,4 +1,5 @@
 var assert = require('assert');
+var mocha = require('mocha');
 var request = require("request");
 var base_url = "http://localhost:8080/api";
 var jtoken = '';
@@ -106,6 +107,7 @@ describe("videopokerjs", function() {
                 var login1 = body;
                 assert.equal(res.statusCode, 200);
                 assert.equal(typeof login1.token, 'string');
+                jtoken = login1.token;
                 assert.equal(login1.username, guestName);
                 assert.equal(login1.credits, 500);
                 done();
@@ -158,9 +160,10 @@ describe("videopokerjs", function() {
                     'wager': 5
                 },
                 headers: {
-                    'x-access-token': 'eyJhGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imd1ZXN0MDAxIiwicm9sZSI6InBsYXllciIsImV4cCI6MTQ2OTYwNjI0OSwiaWF0Ijox4DY5NTE5ODQ5fQ.HsGfDk4i9Bgj7ckru3smd7Zardif-fycmzZweXlsppU'
+                    'x-access-token': jtoken+'asdfasdf'
                 }
             }, function(error, res, body) {
+                console.log('error',error);
                 assert.equal(res.statusCode, 401);
                 assert.equal(body, "Unauthorized: Invalid authentication token.");
                 done();
