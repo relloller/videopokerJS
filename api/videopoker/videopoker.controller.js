@@ -15,7 +15,6 @@ function dealF(req, res) {
     'username': req.body.username
   }, function(err, data) {
     if (err) return handleError(res, err);
-    console.log('dealF data', data);
     if (data.credits >= req.body.wager) data.credits -= req.body.wager;
     else return res.status(400).send('Wager exceeds credits balance');
     credits1 = data.credits;
@@ -43,34 +42,29 @@ function dealF(req, res) {
 //draw new cards after initial cards have been dealt
 function drawF(req, res) {
   if (Array.isArray(req.body.holdCards) === false) return res.status(405).send('Invalid input.');
-  if (req.body.holdCards.length !== 5) return res.status(405).send('Invalid input.');
-  var holdCardsClone = vp.deepCloneInt(req.body.holdCards);
+  if (req.body.holdCards.length !== 5) return res.status(400).send('Invalid input.');
+  var holdCards = vp.deepCloneInt(req.body.holdCards);
 
   VideoPoker.findById(req.body.tID, function(err, data) {
-    if (err)  {
-      if(err.path === '_id' && err.reason === undefined) return res.status(404).send('Game not found');
-      return handleError(res, err);
-    }
-    console.log('data',data);
-    console.log('req.body.username', req.body.username );
+    if (err)  return res.status(404).send('Game not found');
+  
     if(data.username!==req.body.username) return res.status(401).send('Unauthorized');
-
     if(data.drawCards.length === 5 || data.holdCards.length === 5) return res.status(404).send('Game with submitted tID closed');
+    
     //checks if submitted HOLD cards are contained in original deal cards
     for (var i = 0; i < 5; i++) {
-      if (holdCardsClone[i] !== 0 && holdCardsClone[i] !== data.dealCards[i]) {
-          return res.status(405).send('Invalid input');
-        }
+      if (holdCards[i] !== 0 && holdCards[i] !== data.dealCards[i]) return res.status(400).send('Invalid input');
     }
-    // if(data.username!==req.body.decoded) return res.status(401).send('Unauthorized');
-    var drawCards = vp.drawN(data.dealCards, holdCardsClone);
+
+    var drawCards = vp.drawN(data.dealCards, holdCards);
     var currentHand = vp.handChecker(drawCards);
-    data.holdCards = holdCardsClone;
+    data.holdCards = holdCards;
     data.drawCards = drawCards;
     data.handValue = currentHand.Value;
     data.drawTime = Date.now();
     data['wagerResult'] = currentHand.payX * data.wager;
     var wagerResult1 = data['wagerResult'];
+
     data.save(function(err) {
       if (err) return handleError(res, err);
       User.findOne({
@@ -92,5 +86,5 @@ function drawF(req, res) {
 }
 
 function handleError(res, err) {
-  return res.status(500).send('500 error');
+  return res.status(500).send('Internal Server Error');
 }

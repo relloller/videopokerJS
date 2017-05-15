@@ -195,7 +195,7 @@ describe("videopokerjs", function() {
             });
         });
 
-        it("returns 405 status and 'Invalid input.' body for invalid cards", function(done) {
+        it("returns 400 status and 'Invalid input.' body for invalid cards", function(done) {
             request({
                 method: 'POST',
                 uri: base_url + '/vp/draw/user',
@@ -207,7 +207,7 @@ describe("videopokerjs", function() {
                     'x-access-token': jtoken
                 }
             }, function(error, res, body) {
-                assert.equal(res.statusCode, 405);
+                assert.equal(res.statusCode, 400);
                 assert.equal(body, 'Invalid input.');
                 done();
             });

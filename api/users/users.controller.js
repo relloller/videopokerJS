@@ -12,17 +12,18 @@ module.exports = {
 };
 
 function createUser(req, res) {
-    console.log('mochatest', req.headers.authorization);
+    // if (!req.body.email || !req.body.username || !req.body.password)  return res.status(400).send('All fields required');
+    if(req.body.role==='admin') return res.status(400).send('Admin account creation not authorized');
+    if (!req.body.email) return res.status(400).send('All fields required');
+    if (!req.headers.authorization) return res.status(401).setHeader('WWW-Authenticate','Basic realm="Secure Area"').send('Authorization Header required');
+
     req.body.username = atobAuth(req.headers.authorization.substr(6)).username;
     req.body.password = atobAuth(req.headers.authorization.substr(6)).password;
-    if (!req.body.email || !req.body.username || !req.body.password) {
-        return res.status(400).send('All fields required');
-    }
+    
     var user = new User();
     user.username = req.body.username;
     user.email = req.body.email;
-    user.role = req.body.role || 'player';
-    if (user.role === 'admin') return res.status(400).send('Admin account creation not authorized');
+
     user.hashPassword(req.body.password, function(err, hash) {
         if (err) return handleError(res, err);
         user.pwHash = hash;
@@ -44,10 +45,8 @@ function createUser(req, res) {
 };
 
 function loginUser(req, res) {
+    if (!req.headers.authorization) return res.status(401).setHeader('WWW-Authenticate','Basic realm="Secure Area"').send('Authorization Header required');
     req.body = atobAuth(req.headers.authorization.substr(6));
-    if (!req.body.username || !req.body.password) {
-        return res.status(400).send('All fields required');
-    }
     passport.authenticate('local', function(err, user, info) {
         var token;
         if (err) return res.status(404).send(err);
